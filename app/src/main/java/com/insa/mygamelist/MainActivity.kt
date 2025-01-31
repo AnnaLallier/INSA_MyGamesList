@@ -7,9 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,11 +34,16 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             MyGamesListTheme {
+
                 Scaffold(topBar = {
-                    TopAppBar(colors = topAppBarColors(
-                        containerColor = Color.LightGray,
-                        titleContentColor = Color.Black,
-                    ), title = { Text("My Games List") })
+                    TopAppBar(
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.primary,
+                        ),
+                        title = {
+                            Text("My Games List")
+                        })
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     ListOfGames(games = IGDB.games, model = IGDB, modifier = Modifier.padding(innerPadding))
 
