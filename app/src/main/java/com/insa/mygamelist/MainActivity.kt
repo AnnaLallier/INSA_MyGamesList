@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.insa.mygamelist.data.IGDB
 import com.insa.mygamelist.ui.theme.GameCard
+import com.insa.mygamelist.ui.theme.ListOfGames
 import com.insa.mygamelist.ui.theme.MyGamesListTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,11 +34,13 @@ class MainActivity : ComponentActivity() {
             MyGamesListTheme {
                 Scaffold(topBar = {
                     TopAppBar(colors = topAppBarColors(
-                        containerColor = Color.Magenta,
+                        containerColor = Color.LightGray,
                         titleContentColor = Color.Black,
                     ), title = { Text("My Games List") })
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    GameCard(game = IGDB.games[28278]!!, model = IGDB, modifier = Modifier.padding(innerPadding))
+                    ListOfGames(games = IGDB.games, model = IGDB, modifier = Modifier.padding(innerPadding))
+
+                    //GameCard(game = IGDB.games[28278]!!, model = IGDB, modifier = Modifier.padding(innerPadding))
 
                     //Text("À remplir", modifier = Modifier.padding(innerPadding))
                 }

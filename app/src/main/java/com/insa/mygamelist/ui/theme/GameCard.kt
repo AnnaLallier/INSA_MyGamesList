@@ -25,19 +25,20 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.insa.mygamelist.data.IGDB
 
+
+
 @Composable
 fun GameCard(game: Game, model : IGDB, modifier : Modifier) {
     Card(
-        modifier = modifier
-            .background(Color.Black)
-            .padding(5.dp),
+        modifier = modifier.fillMaxWidth(),
+
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
                 model = "https:${IGDB.covers[game.cover]?.url}",
                 contentDescription = null,
-                modifier = modifier.padding(5.dp)
+                modifier = Modifier.size(100.dp)
             )
             Column {
                 Text(game.name, fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline)
@@ -52,11 +53,38 @@ fun GameCard(game: Game, model : IGDB, modifier : Modifier) {
 
 @Composable
 fun ListOfGames(games : Map<Long, Game>, model : IGDB, modifier : Modifier) {
-    LazyColumn {
+    LazyColumn(modifier = modifier) {
         items(games.size) { index ->
-            GameCard(game = games.values.elementAt(index), model = model, modifier = modifier)
-            Spacer(modifier = Modifier.size(10.dp))
+            GameCard(
+                game = games.values.elementAt(index),
+                model = model,
+                modifier = Modifier.padding(8.dp) // Add proper spacing between cards
+            )
         }
     }
 }
 
+
+
+/*
+@Preview
+@Composable
+fun GameCardPreview() {
+    IGDB.load(this),
+
+    GameCard(
+        game = Game(
+            id = 1,
+            name = "Game Name",
+            cover = 1,
+            genres = setOf(123, 455),
+            platforms = setOf(1, 2) ,
+            first_release_date = 4562,
+            summary = "This is a summary",
+            total_rating = 4.5f
+
+        ),
+        model = IGDB,
+        modifier = Modifier
+    )
+}*/
