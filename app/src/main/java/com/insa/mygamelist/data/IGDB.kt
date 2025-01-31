@@ -9,20 +9,13 @@ import com.insa.mygamelist.R
 object IGDB {
 
 
-    lateinit var covers: MutableMap<Long, Cover>
-    lateinit var genres: MutableMap<Long, Genre>
-    lateinit var platformLogos: MutableMap<Long, PlatformLogo>
-    lateinit var platforms: MutableMap<Long, Platform>
-    lateinit var games: MutableMap<Long, Game>
+    lateinit var covers: Map<Long, Cover>
+    lateinit var genres: Map<Long, Genre>
+    lateinit var platformLogos: Map<Long, PlatformLogo>
+    lateinit var platforms: Map<Long, Platform>
+    lateinit var games: Map<Long, Game>
 
     fun load(context: Context) {
-
-        covers = mutableMapOf()
-        genres = mutableMapOf()
-        platformLogos = mutableMapOf()
-        platforms = mutableMapOf()
-        games = mutableMapOf()
-
         val coversFromJson: List<Cover> = Gson().fromJson(
             context.resources.openRawResource(R.raw.covers).bufferedReader(),
             object : TypeToken<List<Cover>>() {}.type
@@ -48,25 +41,11 @@ object IGDB {
             object : TypeToken<List<Game>>() {}.type
         )
 
-        for (cover in coversFromJson) {
-            covers[cover.id] = cover
-        }
-
-        for (genre in genresFromJson) {
-            genres[genre.id] = genre
-        }
-
-        for (platformLogo in platformLogosFromJson) {
-            platformLogos[platformLogo.id] = platformLogo
-        }
-
-        for (platform in platformsFromJson) {
-            platforms[platform.id] = platform
-        }
-
-        for (game in gamesFromJson) {
-            games[game.id] = game
-        }
+        covers = coversFromJson.associateBy { it.id }
+        genres = genresFromJson.associateBy { it.id }
+        platformLogos = platformLogosFromJson.associateBy { it.id }
+        platforms = platformsFromJson.associateBy { it.id }
+        games = gamesFromJson.associateBy { it.id }
 
         Log.d("Loading of JSON data", "Start")
         Log.d("Covers", covers.toString())

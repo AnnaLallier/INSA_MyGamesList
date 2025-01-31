@@ -1,7 +1,6 @@
 package com.insa.mygamelist
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,6 +14,7 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.insa.mygamelist.data.IGDB
+import com.insa.mygamelist.ui.theme.GameCard
 import com.insa.mygamelist.ui.theme.MyGamesListTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
 
         IGDB.load(this)
 
+
         enableEdgeToEdge()
         setContent {
 
@@ -36,9 +37,9 @@ class MainActivity : ComponentActivity() {
                         titleContentColor = Color.Black,
                     ), title = { Text("My Games List") })
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    GameCard(game = IGDB.games[28278]!!, model = IGDB, modifier = Modifier.padding(innerPadding))
 
-                    Text("À remplir", modifier = Modifier.padding(innerPadding))
-
+                    //Text("À remplir", modifier = Modifier.padding(innerPadding))
                 }
             }
         }
