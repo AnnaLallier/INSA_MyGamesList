@@ -1,6 +1,7 @@
 package com.insa.mygamelist.ui.views
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
@@ -26,28 +27,27 @@ fun ListOfGames(
             val genres = game.genres.map { model.genres[it]?.name ?: "" }
             Log.d("GENRES", genres.toString())
 
-            Button(onClick = {
-                Log.d("REDIRECT TO GAME", game.id.toString()) ;
-                navController.navigate(
-                    GameDetail(
-                        game.id,
-                        game.cover,
-                        game.first_release_date,
-                        genres,
-                        game.name,
-                        game.platforms.toList(),
-                        game.summary,
-                        game.total_rating,
-                    )
-                )
-            })
-            {
-                GameCard(
-                    game = game,
-                    genres = genres,
-                    modifier = Modifier.padding(8.dp) // Add proper spacing between cards
-                )
-            }
+            GameCard(
+                game = game,
+                genres = genres,
+                modifier = Modifier
+                    .padding(8.dp) // Add proper spacing between cards
+                    .clickable {
+                        Log.d("REDIRECT TO GAME", game.id.toString())
+                        navController.navigate(
+                            GameDetail(
+                                game.id,
+                                game.cover,
+                                game.first_release_date,
+                                genres,
+                                game.name,
+                                game.platforms.toList(),
+                                game.summary,
+                                game.total_rating,
+                            )
+                        )
+                    }
+            )
         }
 
     }

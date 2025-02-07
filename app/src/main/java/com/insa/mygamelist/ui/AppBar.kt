@@ -24,7 +24,7 @@ import com.insa.mygamelist.ui.navigation.Home
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun myAppBar(navController : NavController) {
+fun myAppBar(navController : NavController, titre : String) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -32,7 +32,7 @@ fun myAppBar(navController : NavController) {
         ),
         title = {
             Text(
-                "My Games List",
+                titre,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

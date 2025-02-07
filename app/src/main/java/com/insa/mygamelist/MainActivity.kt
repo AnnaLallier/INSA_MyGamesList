@@ -12,11 +12,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.google.common.base.Predicates.instanceOf
 import com.insa.mygamelist.data.IGDB
 import com.insa.mygamelist.ui.myAppBar
 import com.insa.mygamelist.ui.navigation.GameDetail
@@ -36,10 +40,26 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            // recup l'état courant dans la back
+            val currentBackStackEntryState by navController.currentBackStackEntryAsState()
+            val dest = currentBackStackEntryState?.destination
+
+            val titre = when {
+                dest!= null && dest.hasRoute<Home>() -> {
+                    "My Games List"
+                }
+                dest != null && dest.hasRoute<GameDetail>() -> {
+                    val gameDetail = currentBackStackEntryState?.toRoute<GameDetail>()
+                    gameDetail?.name ?: "Erreur lors de la récupération du titre"
+                }
+                else -> {
+                    "Erreur lors de la récupération du titre"
+                }
+            }
 
             MyGamesListTheme {
                 Scaffold(topBar = {
-                    myAppBar(navController)
+                    myAppBar(navController, titre)
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = Home) {
                         composable<Home> {
