@@ -26,6 +26,7 @@ import com.insa.mygamelist.ui.myAppBar
 import com.insa.mygamelist.ui.navigation.GameDetail
 import com.insa.mygamelist.ui.views.GameScreen
 import com.insa.mygamelist.ui.navigation.Home
+import com.insa.mygamelist.ui.navigation.Vue
 import com.insa.mygamelist.ui.views.ListOfGames
 import com.insa.mygamelist.ui.theme.MyGamesListTheme
 
@@ -43,14 +44,19 @@ class MainActivity : ComponentActivity() {
             // recup l'état courant dans la back
             val currentBackStackEntryState by navController.currentBackStackEntryAsState()
             val dest = currentBackStackEntryState?.destination
+            var titre = String()
+            var vue = Vue.HOME
 
-            val titre = when {
+            when {
                 dest!= null && dest.hasRoute<Home>() -> {
-                    "My Games List"
+                    titre = "My Games List"
+                    vue = Vue.HOME
+
                 }
                 dest != null && dest.hasRoute<GameDetail>() -> {
                     val gameDetail = currentBackStackEntryState?.toRoute<GameDetail>()
-                    gameDetail?.name ?: "Erreur lors de la récupération du titre"
+                    titre = gameDetail?.name ?: "Erreur lors de la récupération du titre"
+                    vue = Vue.GAMEDETAIL
                 }
                 else -> {
                     "Erreur lors de la récupération du titre"
@@ -59,7 +65,7 @@ class MainActivity : ComponentActivity() {
 
             MyGamesListTheme {
                 Scaffold(topBar = {
-                    myAppBar(navController, titre)
+                    myAppBar(navController, titre, vue)
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = Home) {
                         composable<Home> {
@@ -90,4 +96,9 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun quitApp() {
+        finishAffinity()
+    }
 }
+

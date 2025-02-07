@@ -1,6 +1,6 @@
 package com.insa.mygamelist.ui
 
-import androidx.compose.foundation.layout.PaddingValues
+import android.app.Activity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -9,22 +9,33 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.navigation.NavController
 import com.insa.mygamelist.ui.navigation.Home
+import com.insa.mygamelist.ui.navigation.Vue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun myAppBar(navController : NavController, titre : String) {
+fun myAppBar(navController : NavController, titre : String, vue : Vue) {
+    var actionRetour : (() -> Unit)? = null
+    when {
+        vue == Vue.HOME -> {
+            val activity = (LocalContext.current as? Activity)
+            actionRetour = { activity?.finish() }
+
+        }
+        vue == Vue.GAMEDETAIL -> {
+            actionRetour = { navController.navigate(route = Home) }
+        }
+        else -> {
+            actionRetour = { navController.navigate(route = Home) }
+        }
+    }
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -38,7 +49,8 @@ fun myAppBar(navController : NavController, titre : String) {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { navController.navigate(route = Home)}) {
+            IconButton(
+                onClick = { actionRetour() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Localized description"

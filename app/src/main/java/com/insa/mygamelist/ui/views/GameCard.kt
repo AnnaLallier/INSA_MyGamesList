@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -22,8 +23,10 @@ import com.insa.mygamelist.data.IGDB
 fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        shape = RoundedCornerShape(8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
 
-        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
