@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.insa.mygamelist.data.Game
+import com.insa.mygamelist.data.Genre
 import com.insa.mygamelist.data.IGDB
 import kotlinx.serialization.Serializable
 
@@ -27,7 +28,16 @@ import kotlinx.serialization.Serializable
 object Home
 
 @Serializable
-data class GameDetail(val id: Long)
+data class GameDetail(
+    val id : Long,
+    val cover : Long,
+    val first_release_date : Long,
+    val genres :  List<String>,
+    val name : String,
+    val platforms : List<Long>,
+    val summary : String,
+    val total_rating : Float,
+)
 
 
 /*

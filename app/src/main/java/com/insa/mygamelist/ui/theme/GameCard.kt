@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-//import androidx.compose.foundation.Image
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.insa.mygamelist.data.Game
@@ -29,7 +28,7 @@ import com.insa.mygamelist.data.IGDB
 
 
 @Composable
-fun GameCard(game: Game, model : IGDB, modifier : Modifier) {
+fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
 
@@ -43,8 +42,7 @@ fun GameCard(game: Game, model : IGDB, modifier : Modifier) {
             )
             Column {
                 Text(game.name, fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline)
-                val genres = game.genres.map { model.genres[it] }
-                Text("Genres : ${genres.joinToString { it?.name ?: "" }}")
+                Text("Genres : ${genres.joinToString()}")
             }
 
         }
@@ -62,14 +60,28 @@ fun ListOfGames(
     LazyColumn(modifier = modifier) {
         items(games.size) { index ->
             val game = games.values.elementAt(index)
+            val genres = game.genres.map { model.genres[it]?.name ?: "" }
+            Log.d("GENRES", genres.toString())
+
             Button(onClick = {
-                Log.d("CLICK", game.id.toString()) ;
-                navController.navigate(GameDetail(game.id))
+                Log.d("REDIRECT TO GAME", game.id.toString()) ;
+                navController.navigate(
+                    GameDetail(
+                        game.id,
+                        game.cover,
+                        game.first_release_date,
+                        genres,
+                        game.name,
+                        game.platforms.toList(),
+                        game.summary,
+                        game.total_rating,
+                    )
+                )
             })
             {
                 GameCard(
                     game = game,
-                    model = model,
+                    genres = genres,
                     modifier = Modifier.padding(8.dp) // Add proper spacing between cards
                 )
             }
@@ -79,11 +91,19 @@ fun ListOfGames(
 }
 
 @Composable
-fun GameScreen(id: GameDetail, model: IGDB, modifier: Modifier, onNavigateToGameList: () -> Unit) {
+fun GameScreen(gameDetail: GameDetail, modifier: Modifier, onNavigateToGameList: () -> Unit) {
     Column(modifier = modifier) {
-        val idJeu = id.id
-        val game = model.games[idJeu] ?: return
-        GameCard(game = game, model = model, modifier = Modifier.padding(8.dp))
+        val game = Game(
+            id = gameDetail.id,
+            cover = gameDetail.cover,
+            first_release_date = gameDetail.first_release_date,
+            genres = setOf<Long>(),
+            name = gameDetail.name,
+            platforms = gameDetail.platforms.toSet(),
+            summary = gameDetail.summary,
+            total_rating = gameDetail.total_rating
+        )
+        GameCard(game = game, genres = gameDetail.genres, Modifier.padding(8.dp))
         Spacer(modifier = Modifier.size(8.dp))
         Text(game.summary)
         Spacer(modifier = Modifier.size(8.dp))
@@ -92,26 +112,3 @@ fun GameScreen(id: GameDetail, model: IGDB, modifier: Modifier, onNavigateToGame
         }
     }
 }
-
-/*
-@Preview
-@Composable
-fun GameCardPreview() {
-    IGDB.load(this),
-
-    GameCard(
-        game = Game(
-            id = 1,
-            name = "Game Name",
-            cover = 1,
-            genres = setOf(123, 455),
-            platforms = setOf(1, 2) ,
-            first_release_date = 4562,
-            summary = "This is a summary",
-            total_rating = 4.5f
-
-        ),
-        model = IGDB,
-        modifier = Modifier
-    )
-}*/
