@@ -23,3 +23,23 @@ https://developer.android.com/develop/ui/compose/components/app-bars?hl=fr
 
 https://blog.kotlin-academy.com/dialogs-in-jetpack-compose-2b7f72b14651
 https://developer.android.com/develop/ui/compose/components/dialog?hl=fr
+
+7 mars 4h recherche
+
+14 mars 4h favoris
+
+Exposés 
+
+Présence
+attitude en TP
+projet rendu
+Exposé
+de 7 min + 3 minutes de questions posées par la prof
+
+Nous on est sur les solutions hybrides, donc contrairement aux solutions natives comme Kotlin, il existe des solutions hybrides telles que Flutter gngagnagna et en plus j'ai déjà fait une appli Flutter donc on va pouvoir le présenter 
+
+
+La prof veut qu'on mette un fichier README expliquant ce qu'on a fait
+
+
+TODO : add GameOver music when no game is found

@@ -1,6 +1,7 @@
 package com.insa.mygamelist
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -22,7 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.google.common.base.Predicates.instanceOf
 import com.insa.mygamelist.data.IGDB
-import com.insa.mygamelist.ui.myAppBar
+import com.insa.mygamelist.ui.MyAppBar
 import com.insa.mygamelist.ui.navigation.GameDetail
 import com.insa.mygamelist.ui.views.GameScreen
 import com.insa.mygamelist.ui.navigation.Home
@@ -65,7 +66,7 @@ class MainActivity : ComponentActivity() {
 
             MyGamesListTheme {
                 Scaffold(topBar = {
-                    myAppBar(navController, titre, vue)
+                    MyAppBar(navController, titre, vue)
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = Home) {
                         composable<Home> {
@@ -86,6 +87,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
+                    Log.d("INNER PADDING", innerPadding.toString())
                     //MyApp(games = IGDB.games, model = IGDB, modifier = Modifier.padding(innerPadding))
                     //ListOfGames(games = IGDB.games, model = IGDB, modifier = Modifier.padding(innerPadding))
 
