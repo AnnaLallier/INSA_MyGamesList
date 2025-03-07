@@ -22,7 +22,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.google.common.base.Predicates.instanceOf
+import com.insa.mygamelist.data.Favorites
 import com.insa.mygamelist.data.IGDB
+import com.insa.mygamelist.data.JsonFavorites
 import com.insa.mygamelist.ui.MyAppBar
 import com.insa.mygamelist.ui.navigation.GameDetail
 import com.insa.mygamelist.ui.views.GameScreen
@@ -38,6 +40,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         IGDB.load(this)
+        JsonFavorites.load(this)
 
         enableEdgeToEdge()
         setContent {
@@ -47,6 +50,7 @@ class MainActivity : ComponentActivity() {
             val dest = currentBackStackEntryState?.destination
             var titre = String()
             var vue = Vue.HOME
+            var favorites = Favorites()
 
             when {
                 dest!= null && dest.hasRoute<Home>() -> {
