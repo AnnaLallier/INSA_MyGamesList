@@ -37,6 +37,7 @@ fun MySearchBar(onDismissRequest: () -> Unit, innerPadding : PaddingValues, navC
         },
         modifier = Modifier.fillMaxWidth()
     ) {
+
         ListOfGames(
             games = IGDB.games,
             model = IGDB,
