@@ -50,6 +50,7 @@ class MainActivity : ComponentActivity() {
             val dest = currentBackStackEntryState?.destination
             var titre = String()
             var gameId : Long = 0
+            var isFavorite = false
             var vue = Vue.HOME
             var favorites = Favorites()
 
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
                     val gameDetail = currentBackStackEntryState?.toRoute<GameDetail>()
                     titre = gameDetail?.name ?: "Erreur lors de la récupération du titre"
                     gameId = gameDetail?.id ?: 0
+                    isFavorite = Favorites.isFavorite(gameId)
                     vue = Vue.GAMEDETAIL
                 }
                 else -> {
@@ -72,7 +74,7 @@ class MainActivity : ComponentActivity() {
 
             MyGamesListTheme {
                 Scaffold(topBar = {
-                    MyAppBar(navController, titre, vue, gameId)
+                    MyAppBar(navController, titre, vue, gameId, isFavorite)
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = Home) {
                         composable<Home> {

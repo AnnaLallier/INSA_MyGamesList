@@ -35,12 +35,11 @@ import com.insa.mygamelist.ui.views.MySearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyAppBar(navController : NavController, titre : String, vue : Vue, gameId : Long) {
+fun MyAppBar(navController : NavController, titre : String, vue : Vue, gameId : Long, isFavorite : Boolean) {
     var actionRetour: (() -> Unit)? = null
     var showDialogSearch = remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
     var isActive by remember { mutableStateOf(false) }
-    var isFavorite by remember { mutableStateOf(Favorites.isFavorite(gameId)) }
     Log.d("MyAppBar", "gameId: $gameId, isFavorite: $isFavorite")
 
     when {
@@ -111,18 +110,21 @@ fun MyAppBar(navController : NavController, titre : String, vue : Vue, gameId : 
                     }
                 }
                 else if (vue == Vue.GAMEDETAIL) {
+                    var rememberIsFavorite by remember { mutableStateOf(isFavorite) }
+
                     IconButton(
+
                         onClick = {
-                            if (isFavorite) {
+                            if (rememberIsFavorite) {
                                 Favorites.removeFavorite(gameId)
                             } else {
                                 Favorites.addFavorite(gameId)
                             }
-                            isFavorite = !isFavorite
+                            rememberIsFavorite = !rememberIsFavorite
                         },
                         modifier = Modifier.size(40.dp)
                     ) {
-                        if (isFavorite) {
+                        if (rememberIsFavorite) {
                             Icon(
                                 imageVector = Icons.Outlined.Favorite,
                                 contentDescription = "Remove from Favorites",
