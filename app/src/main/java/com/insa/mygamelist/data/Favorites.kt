@@ -5,46 +5,91 @@ import android.util.Log
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import com.insa.mygamelist.R
+import java.io.File
 
 object JsonFavorites {
     lateinit var favorites :List<Long>
+    private const val FILE_NAME = "favorites.json"
+    private lateinit var appContext: Context
 
-    fun load(context : Context) {
-        /*val favoritesFromJson: List<Long> = Gson().fromJson(
-            context.resources.openRawResource(R.raw.favorites).bufferedReader(),
-            object : TypeToken<List<Long>>() {}.type
-        )*/
+    fun init(context: Context) {
+        appContext = context.applicationContext
+        load()
+    }
 
-        //favorites = favoritesFromJson
-        favorites = emptyList()
+    private fun load() {
+        val file = File(appContext.filesDir, FILE_NAME)
 
-        Log.d("Loading of JSON data", "Start")
+        Log.d("Loading of JSON Favorites data", "Start")
+
+        if (file.exists()) {
+            try {
+                val json = file.readText()
+                val favoritesFromJson : List<Long> = Gson().fromJson(json, object : TypeToken<List<Long>>() {}.type)
+                favorites = favoritesFromJson.toMutableList()
+            } catch (e: Exception) {
+                Log.e("JsonFavorites", "Error loading favorites", e)
+            }
+        } else {
+            Log.d("File doesn't exist", "Loading from raw")
+
+            try {
+                val inputStream = appContext.resources.openRawResource(R.raw.favorites)
+                val json = inputStream.bufferedReader().use { it.readText() }
+                val favoritesFromJson: List<Long> = Gson().fromJson(json, object : TypeToken<List<Long>>() {}.type)
+                favorites = favoritesFromJson.toMutableList()
+                saveFavorites()
+            } catch (e: Exception) {
+                Log.e("JsonFavorites", "Error loading favorites from raw", e)
+            }
+        }
+
         Log.d("Favorites", favorites.toString())
-        Log.d("Loading of JSON data", "Done")
+        Log.d("Loading of JSON Favorites data", "Done")
+    }
+
+    fun addFavorite(id: Long) {
+        if (!favorites.contains(id)) {
+            favorites+=id
+            saveFavorites()
+        }
+    }
+
+    fun removeFavorite(id: Long) {
+        if (favorites.contains(id)) {
+            favorites-=id
+            saveFavorites()
+        }
+    }
+
+    private fun saveFavorites() {
+        try {
+            val json = Gson().toJson(favorites)
+            val file = File(appContext.filesDir, FILE_NAME)
+            Log.d("JsonFavorites", "Chemin du fichier : ${file.absolutePath}")
+            appContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE).use {
+                it.write(json.toByteArray())
+            }
+            Log.d("JsonFavorites", "Favoris enregistrés : $favorites")
+            Log.d("JsonFavorites", "Contenu enregistré : ${file.readText()}")
+        } catch (e: Exception) {
+            Log.e("JsonFavorites", "Error saving favorites", e)
+        }
     }
 }
 
 
 class Favorites {
 
-    var favorite : Long? = null
-
     companion object {
         fun addFavorite(id: Long) {
-            Log.d("AJOUT FAVORIS", id.toString())
-            JsonFavorites.favorites += id
-            Log.d("FAVORITES", JsonFavorites.favorites.toString())
+            JsonFavorites.addFavorite(id)
 
         }
         fun removeFavorite(id: Long) {
-            JsonFavorites.favorites -= id
+            JsonFavorites.removeFavorite(id)
         }
         fun isFavorite(id: Long): Boolean {
-            if (JsonFavorites.favorites.contains(id)) {
-                Log.d("FAVORI $id", "true")
-            } else {
-                Log.d("FAVORI $id", "false")
-            }
             return JsonFavorites.favorites.contains(id)
         }
     }

@@ -48,11 +48,11 @@ object IGDB {
         games = gamesFromJson.associateBy { it.id }
 
         Log.d("Loading of JSON data", "Start")
-        Log.d("Covers", covers.toString())
-        Log.d("Genres", genres.toString())
-        Log.d("PlatformLogos", platformLogos.toString())
-        Log.d("Platforms", platforms.toString())
-        Log.d("Games", games.toString())
+        // Log.d("Covers", covers.toString())
+        // Log.d("Genres", genres.toString())
+        // Log.d("PlatformLogos", platformLogos.toString())
+        // Log.d("Platforms", platforms.toString())
+        // Log.d("Games", games.toString())
         Log.d("Loading of JSON data", "Done")
 
 

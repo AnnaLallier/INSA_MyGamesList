@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         IGDB.load(this)
-        JsonFavorites.load(this)
+        JsonFavorites.init(this)
 
         enableEdgeToEdge()
         setContent {
