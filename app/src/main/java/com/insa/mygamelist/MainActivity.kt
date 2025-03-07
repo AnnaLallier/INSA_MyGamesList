@@ -1,6 +1,7 @@
 package com.insa.mygamelist
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -21,8 +22,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.google.common.base.Predicates.instanceOf
+import com.insa.mygamelist.data.Favorites
 import com.insa.mygamelist.data.IGDB
-import com.insa.mygamelist.ui.myAppBar
+import com.insa.mygamelist.data.JsonFavorites
+import com.insa.mygamelist.ui.MyAppBar
 import com.insa.mygamelist.ui.navigation.GameDetail
 import com.insa.mygamelist.ui.views.GameScreen
 import com.insa.mygamelist.ui.navigation.Home
@@ -37,6 +40,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         IGDB.load(this)
+        JsonFavorites.init(this)
 
         enableEdgeToEdge()
         setContent {
@@ -45,7 +49,10 @@ class MainActivity : ComponentActivity() {
             val currentBackStackEntryState by navController.currentBackStackEntryAsState()
             val dest = currentBackStackEntryState?.destination
             var titre = String()
+            var gameId : Long = 0
+            var isFavorite = false
             var vue = Vue.HOME
+            var favorites = Favorites()
 
             when {
                 dest!= null && dest.hasRoute<Home>() -> {
@@ -56,6 +63,8 @@ class MainActivity : ComponentActivity() {
                 dest != null && dest.hasRoute<GameDetail>() -> {
                     val gameDetail = currentBackStackEntryState?.toRoute<GameDetail>()
                     titre = gameDetail?.name ?: "Erreur lors de la récupération du titre"
+                    gameId = gameDetail?.id ?: 0
+                    isFavorite = Favorites.isFavorite(gameId)
                     vue = Vue.GAMEDETAIL
                 }
                 else -> {
@@ -65,7 +74,7 @@ class MainActivity : ComponentActivity() {
 
             MyGamesListTheme {
                 Scaffold(topBar = {
-                    myAppBar(navController, titre, vue)
+                    MyAppBar(navController, titre, vue, gameId, isFavorite)
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = Home) {
                         composable<Home> {
@@ -86,6 +95,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
+                    Log.d("INNER PADDING", innerPadding.toString())
                     //MyApp(games = IGDB.games, model = IGDB, modifier = Modifier.padding(innerPadding))
                     //ListOfGames(games = IGDB.games, model = IGDB, modifier = Modifier.padding(innerPadding))
 
