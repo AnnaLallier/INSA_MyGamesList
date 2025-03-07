@@ -37,12 +37,12 @@ fun MySearchBar(onDismissRequest: () -> Unit, innerPadding : PaddingValues, navC
         },
         modifier = Modifier.fillMaxWidth()
     ) {
-        /*ListOfGames(
+        ListOfGames(
             games = IGDB.games,
             model = IGDB,
             modifier = Modifier.padding(innerPadding),
             navController,
             research = query
-        )*/
+        )
     }
 }
