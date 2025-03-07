@@ -40,6 +40,11 @@ class Favorites {
             JsonFavorites.favorites -= id
         }
         fun isFavorite(id: Long): Boolean {
+            if (JsonFavorites.favorites.contains(id)) {
+                Log.d("FAVORI $id", "true")
+            } else {
+                Log.d("FAVORI $id", "false")
+            }
             return JsonFavorites.favorites.contains(id)
         }
     }
