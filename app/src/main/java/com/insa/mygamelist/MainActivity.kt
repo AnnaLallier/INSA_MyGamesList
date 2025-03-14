@@ -15,6 +15,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.google.common.base.Predicates.instanceOf
 import com.insa.mygamelist.data.Favorites
+import com.insa.mygamelist.data.GameViewModel
 import com.insa.mygamelist.data.IGDB
 import com.insa.mygamelist.data.JsonFavorites
 import com.insa.mygamelist.ui.MyAppBar
@@ -35,12 +37,19 @@ import com.insa.mygamelist.ui.theme.MyGamesListTheme
 
 class MainActivity : ComponentActivity() {
 
+    private lateinit var gameViewModel: GameViewModel
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         IGDB.load(this)
         JsonFavorites.init(this)
+        gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
+        gameViewModel.games.observe(this) { games ->
+            Log.d("MainActivity", "Jeux reçus : $games")
+        }
+        gameViewModel.fetchGames() // Déclenche la requête API
 
         enableEdgeToEdge()
         setContent {

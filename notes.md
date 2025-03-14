@@ -40,3 +40,27 @@ curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2m
 
 
 POST : https://id.twitch.tv/oauth2/token?client_id=sg16951bcbb49ntm5w2ma13r5vqtje&client_secret=ovxw2ybcdq8r0jo5prxjfl25tvw5ul&grant_type=client_credentials
+
+curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields *; limit 10;"
+
+
+curl -X POST https://api.igdb.com/v4/games \
+Content-Type: text/plain; charset=utf-8 \
+Content-Length: 52 \
+Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje \
+Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb \
+fields id, name, genres, cover, platforms; limit 10;
+
+curl -X POST "https://api.igdb.com/v4/games" \
+-H "Content-Type: text/plain; charset=utf-8" \
+-H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" \
+-H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" \
+--data "fields id, name, genres, cover, platforms; limit 10;"
+
+--> POST https://api.igdb.com/v4/games
+Content-Type: text/plain; charset=utf-8
+Content-Length: 52
+Client-ID: 1234
+Auhorization: Bearer 1234
+fields id, name, genres, cover, platforms; limit 10;
+--> END POST (52-byte body)
