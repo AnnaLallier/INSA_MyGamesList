@@ -1,35 +1,10 @@
 TODO :
 - Barre de recherche, dans le fichier SearchAlert !!!
 
-### Documentations utilisées :
 
-https://developer.android.com/guide/navigation/design?hl=fr#compose
+Rendu le 19/03/2024 (tant qu'il n'y a pas marqué 20/03 c'est bon, donc on peut le rendre le 19 à 23h59 par exemple...)
+Ne pas inclure le répertoire de build dans le rendu moodle
 
-#### Style
-https://developer.android.com/develop/ui/compose/text/style-text?hl=fr
-https://developer.android.com/codelabs/basic-android-kotlin-compose-text-composables?hl=fr#5
-https://developer.android.com/develop/ui/compose/touch-input/pointer-input/scroll?hl=fr
-https://developer.android.com/reference/kotlin/androidx/compose/foundation/interaction/HoverInteraction
-https://developer.android.com/reference/kotlin/androidx/compose/foundation/shape/RoundedCornerShape
-
-#### Navigation Component
-https://developer.android.com/guide/navigation/design?hl=fr#compose
-
-https://developer.android.com/guide/navigation/design/type-safety?hl=fr
-
-
-#### AppBar
-https://developer.android.com/develop/ui/compose/components/app-bars?hl=fr
-
-#### Alert/Dialog
-
-https://blog.kotlin-academy.com/dialogs-in-jetpack-compose-2b7f72b14651
-https://developer.android.com/develop/ui/compose/components/dialog?hl=fr
-
-
-#### SearchBar
-https://medium.com/@desilio/searchbar-with-jetpack-compose-and-material-design-3-1f735f383c1f
-https://composables.com/material3/searchbar
 
 7 mars 4h recherche
 
@@ -50,3 +25,18 @@ La prof veut qu'on mette un fichier README expliquant ce qu'on a fait
 
 
 TODO : add GameOver music when no game is found
+
+
+sg16951bcbb49ntm5w2ma13r5vqtje
+ovxw2ybcdq8r0jo5prxjfl25tvw5ul
+
+
+
+curl -X POST "https://id.twitch.tv/oauth2/token?client_id=sg16951bcbb49ntm5w2ma13r5vqtje&client_secret=ovxw2ybcdq8r0jo5prxjfl25tvw5ul&grant_type=client_credentials"
+
+{"access_token":"ygp92co7qdz0usoelrdlk6xbnz5ieb","expires_in":5124618,"token_type":"bearer"}
+
+curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields *; limit 10;"
+
+
+POST : https://id.twitch.tv/oauth2/token?client_id=sg16951bcbb49ntm5w2ma13r5vqtje&client_secret=ovxw2ybcdq8r0jo5prxjfl25tvw5ul&grant_type=client_credentials
