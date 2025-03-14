@@ -64,3 +64,9 @@ Client-ID: 1234
 Auhorization: Bearer 1234
 fields id, name, genres, cover, platforms; limit 10;
 --> END POST (52-byte body)
+
+
+// méthodes suspend dans un CoroutineScope. Le Scope est combiné avec un Dispatcher pour indiquer sur quel Thread exécuter l'opération asynchrone
+// Retrofit pour les appels réseaux
+// DAns l'objet interface qui va servir à représenter l'API, utiliser @POST, @Body
+//RequestBody pour les appels à IGDB
