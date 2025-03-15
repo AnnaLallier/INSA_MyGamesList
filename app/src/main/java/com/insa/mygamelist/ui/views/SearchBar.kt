@@ -9,12 +9,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.insa.mygamelist.data.GameUpdated
 import com.insa.mygamelist.data.IGDB
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MySearchBar(onDismissRequest: () -> Unit, innerPadding : PaddingValues, navController: NavController, query : String, varisActive : Boolean, onQueryChange: (String) -> Unit, onActiveChange: (Boolean) -> Unit) {
+fun MySearchBar(onDismissRequest: () -> Unit, innerPadding : PaddingValues, navController: NavController, query : String, varisActive : Boolean, onQueryChange: (String) -> Unit, onActiveChange: (Boolean) -> Unit, games : List<GameUpdated>) {
     // var query by remember { mutableStateOf(varQuery) }
     var isActive by remember { mutableStateOf(varisActive) }
 
@@ -39,8 +40,7 @@ fun MySearchBar(onDismissRequest: () -> Unit, innerPadding : PaddingValues, navC
     ) {
 
         ListOfGames(
-            games = IGDB.games,
-            model = IGDB,
+            games = games,
             modifier = Modifier.padding(innerPadding),
             navController,
             research = query

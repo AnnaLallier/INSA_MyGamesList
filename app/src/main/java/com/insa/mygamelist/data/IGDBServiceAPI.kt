@@ -34,7 +34,7 @@ class IGDBServiceAPI {
                         cover = gameJson["cover"]?.asJsonObject?.get("url")?.asString ?: "",
                         genres = gameJson["genres"]?.asJsonArray?.map {
                             it.asJsonObject["name"].asString
-                        }?.toSet() ?: emptySet(),
+                        }?.toList() ?: emptyList(),
                         name = gameJson["name"].asString,
                         platforms = gameJson["platforms"]?.asJsonArray?.map {
                             platformJson -> PlatformUpdated(

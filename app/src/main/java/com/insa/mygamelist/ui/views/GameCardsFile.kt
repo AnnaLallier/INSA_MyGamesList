@@ -1,5 +1,6 @@
 package com.insa.mygamelist.ui.views
 
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,10 +32,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.insa.mygamelist.data.Favorites
+import com.insa.mygamelist.data.GameUpdated
 import com.insa.mygamelist.data.IGDB
 
 @Composable
-fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
+fun GameCard(game: GameUpdated, modifier: Modifier) {
     var isFavorite by remember { mutableStateOf(Favorites.isFavorite(game.id)) }
 
     Card(
@@ -43,14 +45,14 @@ fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
 
-    ) {
+        ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
             AsyncImage(
-                model = "https:${IGDB.covers[game.cover]?.url}",
+                model = "https:${game.cover}",
                 contentDescription = null,
                 modifier = Modifier.size(100.dp)
             )
@@ -58,8 +60,12 @@ fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                Text(game.name, fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline)
-                Text("Genres : ${genres.joinToString()}")
+                Text(
+                    game.name,
+                    fontWeight = FontWeight.Bold,
+                    textDecoration = TextDecoration.Underline
+                )
+                Text("Genres : ${game.genres.joinToString()}")
             }
 
 
@@ -67,8 +73,7 @@ fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
                 onClick = {
                     if (isFavorite) {
                         Favorites.removeFavorite(game.id)
-                    }
-                    else {
+                    } else {
                         Favorites.addFavorite(game.id)
                     }
                     isFavorite = !isFavorite
@@ -93,5 +98,3 @@ fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
 
     }
 }
-
-
