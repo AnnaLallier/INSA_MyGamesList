@@ -6,10 +6,10 @@ import retrofit2.Retrofit
 import okhttp3.Interceptor
 
 object IGDBClient {
-    private const val BASE_URL = "https://api.igdb.com/v4/"
+    private const val URL_API = "https://api.igdb.com/v4/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+        level = HttpLoggingInterceptor.Level.BODY // Will log the request and response
     }
 
     private val httpClient = OkHttpClient.Builder()
@@ -25,7 +25,7 @@ object IGDBClient {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(URL_API)
         .client(httpClient)
         .build()
 

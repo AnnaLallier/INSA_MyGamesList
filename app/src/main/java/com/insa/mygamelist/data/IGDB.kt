@@ -59,6 +59,7 @@ object IGDB {
     }
 }
 
+/*TODO : remove later*/
 data class Cover(val id: Long, val url: String)
 
 data class Genre(val id : Long, val name : String)
@@ -79,4 +80,5 @@ data class Game(
     val summary : String,
     val total_rating : Float
 )
+
 

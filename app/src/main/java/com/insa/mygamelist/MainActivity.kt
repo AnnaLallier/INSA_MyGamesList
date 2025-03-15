@@ -39,7 +39,6 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var gameViewModel: GameViewModel
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -105,12 +104,6 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                     Log.d("INNER PADDING", innerPadding.toString())
-                    //MyApp(games = IGDB.games, model = IGDB, modifier = Modifier.padding(innerPadding))
-                    //ListOfGames(games = IGDB.games, model = IGDB, modifier = Modifier.padding(innerPadding))
-
-                    //GameCard(game = IGDB.games[28278]!!, model = IGDB, modifier = Modifier.padding(innerPadding))
-
-                    //Text("À remplir", modifier = Modifier.padding(innerPadding))
                 }
             }
         }

@@ -9,8 +9,8 @@ import kotlinx.coroutines.launch
 class GameViewModel : ViewModel() {
     private val repository = IGDBServiceAPI()
 
-    private val _games = MutableLiveData<List<GameAPI>>()
-    val games: LiveData<List<GameAPI>> get() = _games
+    private val _games = MutableLiveData<List<GameUpdated>>()
+    val games: LiveData<List<GameUpdated>> get() = _games
 
     fun fetchGames() {
         viewModelScope.launch {

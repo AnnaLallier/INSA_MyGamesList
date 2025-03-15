@@ -1,35 +1,47 @@
+### Le rendu
+Rendu le 19/03/2024 (tant qu'il n'y a pas marqué 20/03 c'est bon, donc on peut le rendre le 19 à 23h59 par exemple...)
+Ne pas inclure le répertoire de build dans le rendu moodle
+Mettre des commentaires;...
+
 TODO :
 - Barre de recherche, dans le fichier SearchAlert !!!
 
+La prof veut qu'on mette un fichier README expliquant ce qu'on a fait
 
-Rendu le 19/03/2024 (tant qu'il n'y a pas marqué 20/03 c'est bon, donc on peut le rendre le 19 à 23h59 par exemple...)
-Ne pas inclure le répertoire de build dans le rendu moodle
-
+TODO : add GameOver music when no game is found
 
 7 mars 4h recherche
 
 14 mars 4h favoris
 
-Exposés 
+Exposés
 
 Présence
 attitude en TP
 projet rendu
-Exposé
+
+### Notes concernant le TP Facultatif
+Le MVC :
+- Model : Retrofit, suspend acceptés
+- Vue : Main, screens etc. Jamais de suspend dans la vue !
+- Controleur : ViewModel suspend
+
+Suspend, remember, mutablestateflow dans le controleur permettent de faire un remember sur un stateflow ce qui permet de recomposer automatiquement la vue quand il est mis à jour
+
+Si la liste de jeux est nulle on affiche un loader, si elle est vide on affiche :( et si elle est pleine on affiche la liste
+
+Il fallait faire une liste de Games simple, pas Game, Cover, Genre, etc.
+=> Le prof a fait une ConsolidatedGames (genres, url, toutes les infos eh oui....................................)
+
+#### Exposé
 de 7 min + 3 minutes de questions posées par la prof
 
 Nous on est sur les solutions hybrides, donc contrairement aux solutions natives comme Kotlin, il existe des solutions hybrides telles que Flutter gngagnagna et en plus j'ai déjà fait une appli Flutter donc on va pouvoir le présenter 
 
 
-La prof veut qu'on mette un fichier README expliquant ce qu'on a fait
-
-
-TODO : add GameOver music when no game is found
-
-
+#### Mes curl
 sg16951bcbb49ntm5w2ma13r5vqtje
 ovxw2ybcdq8r0jo5prxjfl25tvw5ul
-
 
 
 curl -X POST "https://id.twitch.tv/oauth2/token?client_id=sg16951bcbb49ntm5w2ma13r5vqtje&client_secret=ovxw2ybcdq8r0jo5prxjfl25tvw5ul&grant_type=client_credentials"
@@ -70,3 +82,15 @@ fields id, name, genres, cover, platforms; limit 10;
 // Retrofit pour les appels réseaux
 // DAns l'objet interface qui va servir à représenter l'API, utiliser @POST, @Body
 //RequestBody pour les appels à IGDB
+
+
+Un beau curl :
+
+curl -X POST "https://api.igdb.com/v4/games" 
+-H "Content-Type: text/plain; charset=utf-8" 
+-H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" 
+-H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" 
+--data "fields id, cover, first_release_date, genres.id, genres.name, name, platforms.id, platforms.name, platforms.platform_logo, summary, total_rating, cover.id, cover.url; limit 10; where platforms.platform_logo !=null; sort name_asc"
+
+
+curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.id, platforms.name, platforms.platform_logo, summary, total_rating; limit 10; where platforms.platform_logo !=null;"
