@@ -71,8 +71,7 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
                 .horizontalScroll(rememberScrollState())
 
         ) {
-            gameUpdated.platforms_logos.forEach {
-                Log.d("PLATFORM_LOGO", "https:${it}");
+            gameUpdated.platforms_url.forEach {
                 AsyncImage(
                     model = "https:${it}",
                     contentDescription = null,

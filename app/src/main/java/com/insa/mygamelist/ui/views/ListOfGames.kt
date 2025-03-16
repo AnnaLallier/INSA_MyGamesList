@@ -56,7 +56,7 @@ fun ListOfGames(
                                     game.genres,
                                     game.name,
                                     game.platforms_names,
-                                    game.platforms_logos,
+                                    game.platforms_url,
                                     game.summary,
                                     game.total_rating,
                                 )

@@ -16,16 +16,12 @@ import com.insa.mygamelist.data.IGDB
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MySearchBar(onDismissRequest: () -> Unit, innerPadding : PaddingValues, navController: NavController, query : String, varisActive : Boolean, onQueryChange: (String) -> Unit, onActiveChange: (Boolean) -> Unit, games : List<GameUpdated>) {
-    // var query by remember { mutableStateOf(varQuery) }
-    var isActive by remember { mutableStateOf(varisActive) }
 
     SearchBar(
         query = query,
         onQueryChange = { onQueryChange(it) },
-        //onSearch = { isActive = false }, // Trigger search action
         onSearch = { onActiveChange(false) },
         active = varisActive,
-        //onActiveChange = { isActive = it },
         onActiveChange = { onActiveChange(it) },
         placeholder = { Text("Search for a game, a genre, or a platform") },
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search Icon") },
