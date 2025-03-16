@@ -17,7 +17,7 @@ class IGDBServiceAPI {
     suspend fun getGames(): List<GameUpdated>? {
         return withContext(Dispatchers.IO) {
             // Request that gets everything needed for the game list, where the platform logo is not null
-            val queryAll = "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.name, platforms.platform_logo.url, summary, total_rating; limit 10; where platforms.platform_logo != null;"
+            val queryAll = "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.name, platforms.platform_logo.url, summary, total_rating; limit 100; where platforms.platform_logo != null;"
             val requestBody: RequestBody = queryAll.toRequestBody("text/plain".toMediaTypeOrNull())
 
             // Calls the API with the request
