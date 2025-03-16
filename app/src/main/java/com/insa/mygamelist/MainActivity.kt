@@ -66,8 +66,7 @@ class MainActivity : ComponentActivity() {
 
                 }
                 dest != null && dest.hasRoute<GameUpdated>() -> {
-                    val gameJson = currentBackStackEntryState?.arguments?.getString("gameJson")
-                    val gameUpdated = gameJson?.let { Json.decodeFromString<GameUpdated>(it) }
+                    val gameUpdated = currentBackStackEntryState?.toRoute<GameUpdated>()
                     titre = gameUpdated?.name ?: "Error when retrieving the title"
                     gameId = gameUpdated?.id ?: 0
                     isFavorite = Favorites.isFavorite(gameId)
@@ -87,22 +86,14 @@ class MainActivity : ComponentActivity() {
                                 navController
                             )
                         }
-                        composable("game_detail/{gameJson}",
-                            arguments = listOf(navArgument("gameJson") { type = NavType.StringType })
-                        ) {
-                            backStackEntry ->
-                            val gameJson = backStackEntry.arguments?.getString("gameJson")
-                            val gameUpdated = gameJson?.let { Json.decodeFromString<GameUpdated>(it) }
-
-                            if (gameUpdated != null) {
-                                GameScreen(
-                                    gameUpdated = gameUpdated,
-                                    modifier = Modifier.padding(innerPadding),
-                                    onNavigateToGameList = { navController.navigate(route = Home) }
-                                )
-                            } else {
-                                Log.d("ERROR", "Error when converting the JSON to GameUpdated")
-                            }
+                        composable<GameUpdated> {
+                                backStackEntry ->
+                            val gameUpdated : GameUpdated = backStackEntry.toRoute()
+                            GameScreen(
+                                gameUpdated = gameUpdated,
+                                modifier = Modifier.padding(innerPadding),
+                                onNavigateToGameList = { navController.navigate(route = Home) }
+                            )
                         }
                     }
                     Log.d("INNER PADDING", innerPadding.toString())

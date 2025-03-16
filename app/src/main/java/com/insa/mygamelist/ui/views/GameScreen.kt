@@ -71,9 +71,10 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
                 .horizontalScroll(rememberScrollState())
 
         ) {
-            gameUpdated.platforms.forEach {
+            gameUpdated.platforms_logos.forEach {
+                Log.d("PLATFORM_LOGO", "https:${it}");
                 AsyncImage(
-                    model = "https:${it.platform_logo}",
+                    model = "https:${it}",
                     contentDescription = null,
                     //contentScale = ContentScale.Crop, makes everything square but alters the image
                     modifier = Modifier

@@ -8,8 +8,14 @@ data class GameUpdated(
     val cover : String,
     val genres : List<String>,
     val name : String,
-    val platforms : List<PlatformUpdated>,
+    val platforms_names : List<String>,
+    val platforms_logos : List<Long>,
     val summary : String,
     val total_rating : Float
 )
 
+@Serializable
+data class PlatformUpdated(
+    val name : String,
+    val platform_logo : Long
+)

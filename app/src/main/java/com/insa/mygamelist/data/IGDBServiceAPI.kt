@@ -36,12 +36,12 @@ class IGDBServiceAPI {
                             it.asJsonObject["name"].asString
                         }?.toList() ?: emptyList(),
                         name = gameJson["name"].asString,
-                        platforms = gameJson["platforms"]?.asJsonArray?.map {
-                            platformJson -> PlatformUpdated(
-                                name = platformJson.asJsonObject["name"].asString,
-                                platform_logo = platformJson.asJsonObject["platform_logo"]?.asLong ?: 0L
-                            )
-                        } ?: emptyList(),
+                        platforms_names = gameJson["platforms"]?.asJsonArray?.map {
+                            it.asJsonObject["name"].asString
+                        }?.toList() ?: emptyList(),
+                        platforms_logos = gameJson["platforms"]?.asJsonArray?.mapNotNull {
+                            it.asJsonObject["platform_logo"]?.asLong
+                        }?.toList() ?: emptyList(),
                         summary = gameJson["summary"]?.asString ?: "",
                         total_rating = gameJson["total_rating"]?.asFloat ?: 0.0f
                     )

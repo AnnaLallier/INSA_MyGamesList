@@ -31,7 +31,7 @@ fun ListOfGames(
                 //TODO : I removed the tolist to genres so check if it still works correctly
                 game.name.lowercase().contains(researchLowerCase) ||
                 game.genres.any { it.lowercase().contains(researchLowerCase) } ||
-                game.platforms.any { it.name.lowercase().contains(researchLowerCase) }
+                game.platforms_names.any { it.lowercase().contains(researchLowerCase) }
     }
 
     if (filteredGames.isEmpty()) {
@@ -43,7 +43,6 @@ fun ListOfGames(
     } else {
         LazyColumn(modifier = modifier) {
             items(filteredGames) { game ->
-                val gameJson = Json.encodeToString(game)
                 GameCard(
                     game = game,
                     modifier = Modifier
@@ -51,7 +50,16 @@ fun ListOfGames(
                         .clickable {
                             Log.d("REDIRECT TO GAME", game.id.toString())
                             navController.navigate(
-                                "game_detail/$gameJson"
+                                GameUpdated(
+                                    game.id,
+                                    game.cover,
+                                    game.genres,
+                                    game.name,
+                                    game.platforms_names,
+                                    game.platforms_logos,
+                                    game.summary,
+                                    game.total_rating,
+                                )
                             )
                         }
                 )
