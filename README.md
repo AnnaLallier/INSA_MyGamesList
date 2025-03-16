@@ -51,6 +51,8 @@ J'ai notamment utilisé les documentations suivantes (sans compter les pages Sta
 - https://developer.android.com/guide/navigation/design/type-safety?hl=fr
 - https://kotlinlang.org/docs/serialization.html
 - https://medium.com/androiddevelopers/json-in-kotlin-with-kotlinx-serialization-4765a8a3c275
+- https://kotlinlang.org/api/kotlinx.serialization/kotlinx-serialization-core/kotlinx.serialization/-serializable/
+- https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/builtin-classes.md#lists
 
 #### AppBar
 - https://developer.android.com/develop/ui/compose/components/app-bars?hl=fr
@@ -75,3 +77,4 @@ J'ai notamment utilisé les documentations suivantes (sans compter les pages Sta
 
 #### Json
 -  https://github.com/google/gson/blob/main/UserGuide.md
+-  https://medium.com/@hissain.khan/parsing-with-google-gson-library-in-android-kotlin-7920e26f5520
