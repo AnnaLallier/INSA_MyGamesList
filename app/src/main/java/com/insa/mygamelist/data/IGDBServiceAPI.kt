@@ -17,7 +17,7 @@ class IGDBServiceAPI {
     suspend fun getGames(): List<GameUpdated>? {
         return withContext(Dispatchers.IO) {
             // Request that gets everything needed for the game list, where the platform logo is not null
-            val queryAll = "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.id, platforms.name, platforms.platform_logo, summary, total_rating; limit 10; where platforms.platform_logo !=null;"
+            val queryAll = "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.name, platforms.platform_logo.url, summary, total_rating; limit 100; where platforms.platform_logo != null;"
             val requestBody: RequestBody = queryAll.toRequestBody("text/plain".toMediaTypeOrNull())
 
             // Calls the API with the request
@@ -34,14 +34,14 @@ class IGDBServiceAPI {
                         cover = gameJson["cover"]?.asJsonObject?.get("url")?.asString ?: "",
                         genres = gameJson["genres"]?.asJsonArray?.map {
                             it.asJsonObject["name"].asString
-                        }?.toSet() ?: emptySet(),
+                        }?.toList() ?: emptyList(),
                         name = gameJson["name"].asString,
-                        platforms = gameJson["platforms"]?.asJsonArray?.map {
-                            platformJson -> PlatformUpdated(
-                                name = platformJson.asJsonObject["name"].asString,
-                                platform_logo = platformJson.asJsonObject["platform_logo"]?.asLong ?: 0L
-                            )
-                        } ?: emptyList(),
+                        platforms_names = gameJson["platforms"]?.asJsonArray?.map {
+                            it.asJsonObject["name"].asString
+                        }?.toList() ?: emptyList(),
+                        platforms_url = gameJson["platforms"]?.asJsonArray?.mapNotNull {
+                            it.asJsonObject["platform_logo"]?.asJsonObject?.get("url")?.asString
+                        }?.toList() ?: emptyList(),
                         summary = gameJson["summary"]?.asString ?: "",
                         total_rating = gameJson["total_rating"]?.asFloat ?: 0.0f
                     )

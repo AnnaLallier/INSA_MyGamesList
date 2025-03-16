@@ -12,27 +12,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.insa.mygamelist.data.Game
-import com.insa.mygamelist.data.IGDB
-import com.insa.mygamelist.ui.navigation.GameDetail
+import com.insa.mygamelist.data.GameUpdated
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 @Composable
 fun ListOfGames(
-    games: Map<Long, Game>,
-    model: IGDB,
+    games: List<GameUpdated>,
     modifier: Modifier,
     navController: NavController,
     research : String = ""
 ) {
-    val filteredGames = games.values.filter { game ->
-        val genres = game.genres.map { model.genres[it]?.name ?: "" }
+    val filteredGames = games.filter { game ->
         val researchLowerCase = research.lowercase()
 
         research.isBlank() ||
+                //TODO : I removed the tolist to genres so check if it still works correctly
                 game.name.lowercase().contains(researchLowerCase) ||
-                genres.any { it.lowercase().contains(researchLowerCase) } ||
-                game.platforms.toList().any { IGDB.platforms[it]?.name?.lowercase()?.contains(researchLowerCase) == true }
+                game.genres.any { it.lowercase().contains(researchLowerCase) } ||
+                game.platforms_names.any { it.lowercase().contains(researchLowerCase) }
     }
 
     if (filteredGames.isEmpty()) {
@@ -44,22 +43,20 @@ fun ListOfGames(
     } else {
         LazyColumn(modifier = modifier) {
             items(filteredGames) { game ->
-                val genres = game.genres.map { model.genres[it]?.name ?: "" }
                 GameCard(
                     game = game,
-                    genres = genres,
                     modifier = Modifier
                         .padding(8.dp)
                         .clickable {
                             Log.d("REDIRECT TO GAME", game.id.toString())
                             navController.navigate(
-                                GameDetail(
+                                GameUpdated(
                                     game.id,
                                     game.cover,
-                                    game.first_release_date,
-                                    genres,
+                                    game.genres,
                                     game.name,
-                                    game.platforms.toList(),
+                                    game.platforms_names,
+                                    game.platforms_url,
                                     game.summary,
                                     game.total_rating,
                                 )
@@ -70,3 +67,5 @@ fun ListOfGames(
         }
     }
 }
+
+

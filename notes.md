@@ -94,3 +94,9 @@ curl -X POST "https://api.igdb.com/v4/games"
 
 
 curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.id, platforms.name, platforms.platform_logo, summary, total_rating; limit 10; where platforms.platform_logo !=null;"
+
+
+curl -X POST "https://api.igdb.com/v4/platform_logos" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields *; limit 10;"
+curl -X POST "https://api.igdb.com/v4/platform_logos" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields *; limit 10;"
+
+curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields name, platforms.name, platforms.platform_logo.url; limit 10; where platforms.platform_logo != null;"
