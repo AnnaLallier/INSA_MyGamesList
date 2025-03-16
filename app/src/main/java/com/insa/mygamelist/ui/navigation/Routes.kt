@@ -13,7 +13,7 @@ data class PlatformDetail(
 )
 
 @Serializable
-data class GameUpdated(
+data class GameDetail(
     val id : Long,
     val cover : String,
     val genres :  List<String>, //TODO : try with set<Strign>

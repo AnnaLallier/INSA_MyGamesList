@@ -13,10 +13,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.navigation.toRoute
 import com.insa.mygamelist.data.Favorites
 import com.insa.mygamelist.data.GameUpdated
@@ -24,11 +26,13 @@ import com.insa.mygamelist.data.GameViewModel
 import com.insa.mygamelist.data.IGDB
 import com.insa.mygamelist.data.JsonFavorites
 import com.insa.mygamelist.ui.MyAppBar
+import com.insa.mygamelist.ui.navigation.GameDetail
 import com.insa.mygamelist.ui.views.GameScreen
 import com.insa.mygamelist.ui.navigation.Home
 import com.insa.mygamelist.ui.navigation.Vue
 import com.insa.mygamelist.ui.views.ListOfGames
 import com.insa.mygamelist.ui.theme.MyGamesListTheme
+import kotlinx.serialization.json.Json
 
 class MainActivity : ComponentActivity() {
 
@@ -62,7 +66,8 @@ class MainActivity : ComponentActivity() {
 
                 }
                 dest != null && dest.hasRoute<GameUpdated>() -> {
-                    val gameUpdated = currentBackStackEntryState?.toRoute<GameUpdated>()
+                    val gameJson = currentBackStackEntryState?.arguments?.getString("gameJson")
+                    val gameUpdated = gameJson?.let { Json.decodeFromString<GameUpdated>(it) }
                     titre = gameUpdated?.name ?: "Error when retrieving the title"
                     gameId = gameUpdated?.id ?: 0
                     isFavorite = Favorites.isFavorite(gameId)
@@ -82,14 +87,22 @@ class MainActivity : ComponentActivity() {
                                 navController
                             )
                         }
-                        composable<GameUpdated> {
+                        composable("game_detail/{gameJson}",
+                            arguments = listOf(navArgument("gameJson") { type = NavType.StringType })
+                        ) {
                             backStackEntry ->
-                            val gameUpdated : GameUpdated = backStackEntry.toRoute()
-                            GameScreen(
-                                gameUpdated = gameUpdated,
-                                modifier = Modifier.padding(innerPadding),
-                                onNavigateToGameList = { navController.navigate(route = Home) }
-                            )
+                            val gameJson = backStackEntry.arguments?.getString("gameJson")
+                            val gameUpdated = gameJson?.let { Json.decodeFromString<GameUpdated>(it) }
+
+                            if (gameUpdated != null) {
+                                GameScreen(
+                                    gameUpdated = gameUpdated,
+                                    modifier = Modifier.padding(innerPadding),
+                                    onNavigateToGameList = { navController.navigate(route = Home) }
+                                )
+                            } else {
+                                Log.d("ERROR", "Error when converting the JSON to GameUpdated")
+                            }
                         }
                     }
                     Log.d("INNER PADDING", innerPadding.toString())

@@ -13,7 +13,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.insa.mygamelist.data.GameUpdated
-
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 @Composable
@@ -42,6 +43,7 @@ fun ListOfGames(
     } else {
         LazyColumn(modifier = modifier) {
             items(filteredGames) { game ->
+                val gameJson = Json.encodeToString(game)
                 GameCard(
                     game = game,
                     modifier = Modifier
@@ -49,15 +51,7 @@ fun ListOfGames(
                         .clickable {
                             Log.d("REDIRECT TO GAME", game.id.toString())
                             navController.navigate(
-                                GameUpdated(
-                                    game.id,
-                                    game.cover,
-                                    game.genres,
-                                    game.name,
-                                    game.platforms,
-                                    game.summary,
-                                    game.total_rating,
-                                )
+                                "game_detail/$gameJson"
                             )
                         }
                 )
