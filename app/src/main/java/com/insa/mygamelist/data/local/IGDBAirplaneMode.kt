@@ -1,10 +1,11 @@
-package com.insa.mygamelist.data
+package com.insa.mygamelist.data.local
 
 
 import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.insa.mygamelist.data.model.GameUpdated
 import java.io.File
 
 /**

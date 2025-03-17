@@ -1,4 +1,4 @@
-package com.insa.mygamelist.ui.views
+package com.insa.mygamelist.ui.components
 
 
 import androidx.compose.foundation.layout.*
@@ -9,7 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.insa.mygamelist.data.GameUpdated
+import com.insa.mygamelist.data.model.GameUpdated
 
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package com.insa.mygamelist.ui.views
+package com.insa.mygamelist.ui.components
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -27,8 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.insa.mygamelist.data.favorites.Favorites
-import com.insa.mygamelist.data.GameUpdated
+import com.insa.mygamelist.data.local.favorites.Favorites
+import com.insa.mygamelist.data.model.GameUpdated
 
 @Composable
 fun GameCard(game: GameUpdated, modifier: Modifier) {

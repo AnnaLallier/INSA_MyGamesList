@@ -1,4 +1,4 @@
-package com.insa.mygamelist.data.favorites
+package com.insa.mygamelist.data.local.favorites
 
 /** Class used to interact with JsonFavorites */
 class Favorites {

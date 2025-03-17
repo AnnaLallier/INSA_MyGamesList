@@ -1,4 +1,4 @@
-package com.insa.mygamelist.ui.views
+package com.insa.mygamelist.ui.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth

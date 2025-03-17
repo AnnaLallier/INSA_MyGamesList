@@ -1,6 +1,5 @@
-package com.insa.mygamelist.ui.views
+package com.insa.mygamelist.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +26,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.insa.mygamelist.data.GameUpdated
+import com.insa.mygamelist.data.model.GameUpdated
 
 @Composable
 fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameList: () -> Unit) {

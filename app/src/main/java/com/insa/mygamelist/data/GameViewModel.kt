@@ -3,6 +3,9 @@ package com.insa.mygamelist.data
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.insa.mygamelist.data.local.IGDBAirplaneMode
+import com.insa.mygamelist.data.model.GameUpdated
+import com.insa.mygamelist.data.remote.IGDBServiceAPI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

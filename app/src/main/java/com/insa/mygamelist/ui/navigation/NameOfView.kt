@@ -1,6 +1,6 @@
 package com.insa.mygamelist.ui.navigation
 
-enum class Vue {
+enum class NameOfView {
     HOME,
     GAMEDETAIL
 }

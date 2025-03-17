@@ -18,16 +18,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.insa.mygamelist.data.favorites.Favorites
-import com.insa.mygamelist.data.GameUpdated
+import com.insa.mygamelist.data.local.favorites.Favorites
+import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.data.GameViewModel
-import com.insa.mygamelist.data.IGDBAirplaneMode
-import com.insa.mygamelist.data.favorites.JsonFavorites
-import com.insa.mygamelist.ui.MyAppBar
-import com.insa.mygamelist.ui.views.GameScreen
+import com.insa.mygamelist.data.local.IGDBAirplaneMode
+import com.insa.mygamelist.data.local.favorites.JsonFavorites
+import com.insa.mygamelist.ui.components.MyAppBar
+import com.insa.mygamelist.ui.components.GameScreen
 import com.insa.mygamelist.ui.navigation.Home
-import com.insa.mygamelist.ui.navigation.Vue
-import com.insa.mygamelist.ui.views.ListOfGames
+import com.insa.mygamelist.ui.navigation.NameOfView
+import com.insa.mygamelist.ui.components.ListOfGames
 import com.insa.mygamelist.ui.theme.MyGamesListTheme
 
 class MainActivity : ComponentActivity() {
@@ -53,13 +53,13 @@ class MainActivity : ComponentActivity() {
             var titre = String()
             var gameId : Long = 0
             var isFavorite = false
-            var vue = Vue.HOME
+            var nameOfView = NameOfView.HOME
             var favorites = Favorites()
 
             when {
                 dest!= null && dest.hasRoute<Home>() -> {
                     titre = "My Games List"
-                    vue = Vue.HOME
+                    nameOfView = NameOfView.HOME
 
                 }
                 dest != null && dest.hasRoute<GameUpdated>() -> {
@@ -67,13 +67,13 @@ class MainActivity : ComponentActivity() {
                     titre = gameUpdated?.name ?: "Error when retrieving the title"
                     gameId = gameUpdated?.id ?: 0
                     isFavorite = Favorites.isFavorite(gameId)
-                    vue = Vue.GAMEDETAIL
+                    nameOfView = NameOfView.GAMEDETAIL
                 }
             }
 
             MyGamesListTheme {
                 Scaffold(topBar = {
-                    MyAppBar(navController, titre, vue, gameId, isFavorite, gamesLoaded)
+                    MyAppBar(navController, titre, nameOfView, gameId, isFavorite, gamesLoaded)
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = Home) {
                         composable<Home> {

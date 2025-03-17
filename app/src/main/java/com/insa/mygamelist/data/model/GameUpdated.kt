@@ -1,4 +1,4 @@
-package com.insa.mygamelist.data
+package com.insa.mygamelist.data.model
 
 import kotlinx.serialization.Serializable
 

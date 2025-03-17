@@ -1,4 +1,4 @@
-package com.insa.mygamelist.data
+package com.insa.mygamelist.data.remote
 
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

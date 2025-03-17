@@ -1,4 +1,4 @@
-package com.insa.mygamelist.data
+package com.insa.mygamelist.data.remote
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -1,9 +1,10 @@
-package com.insa.mygamelist.data
+package com.insa.mygamelist.data.remote
 
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import com.insa.mygamelist.data.model.GameUpdated
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
