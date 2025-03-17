@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.insa.mygamelist.data.model.GameUpdated
 
+/**
+ * Component displaying the details of a game
+ */
 @Composable
 fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameList: () -> Unit) {
     Column(

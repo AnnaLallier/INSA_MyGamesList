@@ -30,6 +30,9 @@ import coil3.compose.AsyncImage
 import com.insa.mygamelist.data.local.favorites.Favorites
 import com.insa.mygamelist.data.model.GameUpdated
 
+/**
+ * Component displaying a card for a game with its cover, name, genres, and favorite button
+ */
 @Composable
 fun GameCard(game: GameUpdated, modifier: Modifier) {
     var isFavorite by remember { mutableStateOf(Favorites.isFavorite(game.id)) }

@@ -30,9 +30,12 @@ import com.insa.mygamelist.ui.navigation.NameOfView
 import com.insa.mygamelist.ui.components.ListOfGames
 import com.insa.mygamelist.ui.theme.MyGamesListTheme
 
+/**
+ * Main activity of the application
+ */
 class MainActivity : ComponentActivity() {
 
-    private lateinit var gameViewModel: GameViewModel
+    private lateinit var gameViewModel: GameViewModel // View model to get the games
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +57,9 @@ class MainActivity : ComponentActivity() {
             var gameId : Long = 0
             var isFavorite = false
             var nameOfView = NameOfView.HOME
-            var favorites = Favorites()
 
             when {
+                // Check the current destination to display the correct title
                 dest!= null && dest.hasRoute<Home>() -> {
                     titre = "My Games List"
                     nameOfView = NameOfView.HOME
@@ -66,7 +69,7 @@ class MainActivity : ComponentActivity() {
                     val gameUpdated = currentBackStackEntryState?.toRoute<GameUpdated>()
                     titre = gameUpdated?.name ?: "Error when retrieving the title"
                     gameId = gameUpdated?.id ?: 0
-                    isFavorite = Favorites.isFavorite(gameId)
+                    isFavorite = Favorites.isFavorite(gameId) // Display the correct icon if the game is a favorite or not
                     nameOfView = NameOfView.GAMEDETAIL
                 }
             }
@@ -76,6 +79,7 @@ class MainActivity : ComponentActivity() {
                     MyAppBar(navController, titre, nameOfView, gameId, isFavorite, gamesLoaded)
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = Home) {
+                        // Home screen, displaying the list of games
                         composable<Home> {
                             ListOfGames(
                                 games = gamesLoaded,
@@ -83,6 +87,7 @@ class MainActivity : ComponentActivity() {
                                 navController
                             )
                         }
+                        // Game screen, displaying the details of a game
                         composable<GameUpdated> {
                                 backStackEntry ->
                             val gameUpdated : GameUpdated = backStackEntry.toRoute()
@@ -93,7 +98,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                    Log.d("INNER PADDING", innerPadding.toString())
                 }
             }
         }

@@ -1,6 +1,8 @@
 package com.insa.mygamelist.data.local.favorites
 
-/** Class used to interact with JsonFavorites */
+/**
+ * Class used to interact with JsonFavorites
+ */
 class Favorites {
     companion object {
         fun addFavorite(id: Long) {

@@ -6,7 +6,9 @@ import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import java.io.File
 
-/**Handles the saving and loading of favorites from and to a JSON file*/
+/**
+ * Handles the saving and loading of favorites from and to a JSON file
+ */
 object JsonFavorites {
     lateinit var favorites :List<Long>
     private const val FILE_NAME = "favorites.json"

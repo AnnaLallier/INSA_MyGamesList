@@ -33,6 +33,9 @@ import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.ui.navigation.Home
 import com.insa.mygamelist.ui.navigation.NameOfView
 
+/**
+ * AppBar of the application
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfView, gameId : Long, isFavorite : Boolean, games : List<GameUpdated>) {

@@ -15,6 +15,9 @@ import androidx.navigation.NavController
 import com.insa.mygamelist.data.model.GameUpdated
 
 
+/**
+ * Component displaying a list of games
+ */
 @Composable
 fun ListOfGames(
     games: List<GameUpdated>,
@@ -26,7 +29,6 @@ fun ListOfGames(
         val researchLowerCase = research.lowercase()
 
         research.isBlank() ||
-                //TODO : I removed the tolist to genres so check if it still works correctly
                 game.name.lowercase().contains(researchLowerCase) ||
                 game.genres.any { it.lowercase().contains(researchLowerCase) } ||
                 game.platforms_names.any { it.lowercase().contains(researchLowerCase) }
