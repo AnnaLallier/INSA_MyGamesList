@@ -1,4 +1,4 @@
-package com.insa.mygamelist.ui
+package com.insa.mygamelist.ui.components
 
 import android.app.Activity
 import android.util.Log
@@ -28,32 +28,35 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.insa.mygamelist.data.Favorites
+import com.insa.mygamelist.data.local.favorites.Favorites
+import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.ui.navigation.Home
-import com.insa.mygamelist.ui.navigation.Vue
-import com.insa.mygamelist.ui.views.MySearchBar
+import com.insa.mygamelist.ui.navigation.NameOfView
 
+/**
+ * AppBar of the application
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyAppBar(navController : NavController, titre : String, vue : Vue, gameId : Long, isFavorite : Boolean) {
-    var actionRetour: (() -> Unit)? = null
-    var showDialogSearch = remember { mutableStateOf(false) }
+fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfView, gameId : Long, isFavorite : Boolean, games : List<GameUpdated>) {
+    val actionRetour: (() -> Unit)?
+    val showDialogSearch = remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
     var isActive by remember { mutableStateOf(false) }
     Log.d("MyAppBar", "gameId: $gameId, isFavorite: $isFavorite")
 
     when {
-        vue == Vue.HOME && !showDialogSearch.value -> {
+        nameOfView == NameOfView.HOME && !showDialogSearch.value -> {
             val activity = (LocalContext.current as? Activity)
             actionRetour = { activity?.finish() }
 
         }
 
-        vue == Vue.GAMEDETAIL -> {
+        nameOfView == NameOfView.GAMEDETAIL -> {
             actionRetour = { navController.navigateUp() }
         }
 
-        vue == Vue.HOME && showDialogSearch.value -> {
+        nameOfView == NameOfView.HOME && showDialogSearch.value -> {
             actionRetour = { navController.navigate(route = Home)
                 showDialogSearch.value = false}
 
@@ -88,7 +91,7 @@ fun MyAppBar(navController : NavController, titre : String, vue : Vue, gameId : 
             },
 
             actions = {
-                if (vue != Vue.GAMEDETAIL) {
+                if (nameOfView != NameOfView.GAMEDETAIL) {
                     IconButton(onClick = {
                         if (showDialogSearch.value) {
                             showDialogSearch.value = false
@@ -109,7 +112,7 @@ fun MyAppBar(navController : NavController, titre : String, vue : Vue, gameId : 
                         }
                     }
                 }
-                else if (vue == Vue.GAMEDETAIL) {
+                else if (nameOfView == NameOfView.GAMEDETAIL) {
                     var rememberIsFavorite by remember { mutableStateOf(isFavorite) }
 
                     IconButton(
@@ -143,11 +146,16 @@ fun MyAppBar(navController : NavController, titre : String, vue : Vue, gameId : 
             }
         )
 
-        if (showDialogSearch.value && vue == Vue.HOME) {
-            MySearchBar(onDismissRequest = { showDialogSearch.value = false }, PaddingValues(start=0.0.dp, top=88.0.dp, end=0.0.dp, bottom=24.0.dp), navController, query, isActive, { it -> query = it }, { it -> isActive = it })
-        }
-        else if (!showDialogSearch.value && vue == Vue.GAMEDETAIL) {
-
+        if (showDialogSearch.value && nameOfView == NameOfView.HOME) {
+            MySearchBar(
+                PaddingValues(start=0.0.dp, top=88.0.dp, end=0.0.dp, bottom=24.0.dp),
+                navController,
+                query, 
+                isActive,
+                { it -> query = it },
+                { it -> isActive = it },
+                games
+            )
         }
     }
 }

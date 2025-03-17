@@ -1,7 +1,5 @@
-package com.insa.mygamelist.ui.views
+package com.insa.mygamelist.ui.components
 
-import android.util.Log
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,8 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -30,13 +26,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.insa.mygamelist.data.Game
-import com.insa.mygamelist.data.IGDB
-import com.insa.mygamelist.data.IGDB.genres
-import com.insa.mygamelist.ui.navigation.GameDetail
+import com.insa.mygamelist.data.model.GameUpdated
 
+/**
+ * Component displaying the details of a game
+ */
 @Composable
-fun GameScreen(gameDetail: GameDetail, modifier: Modifier, onNavigateToGameList: () -> Unit) {
+fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameList: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.padding(8.dp)
@@ -52,18 +48,18 @@ fun GameScreen(gameDetail: GameDetail, modifier: Modifier, onNavigateToGameList:
                         )
                     )
                 ) {
-                    append(gameDetail.name)
+                    append(gameUpdated.name)
                 }
             },
             fontWeight = FontWeight.Bold,
             textDecoration = TextDecoration.Underline,
         )
         AsyncImage(
-            model = "https:${IGDB.covers[gameDetail.cover]?.url}",
+            model = "https:${gameUpdated.cover}",
             contentDescription = null,
             modifier = Modifier.size(250.dp)
         )
-        var genres = gameDetail.genres.toString()
+        var genres = gameUpdated.genres.toString()
         genres = genres.replace("[", "")
         genres = genres.replace("]", "")
         Text(
@@ -71,18 +67,17 @@ fun GameScreen(gameDetail: GameDetail, modifier: Modifier, onNavigateToGameList:
             fontStyle = FontStyle.Italic,
             color = Color.Gray
         )
-        Log.d("GENRES", gameDetail.genres[0])
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(8.dp)
                 .horizontalScroll(rememberScrollState())
 
         ) {
-            gameDetail.platforms.forEach {
+            gameUpdated.platforms_url.forEach {
                 AsyncImage(
-                    model = "https:${IGDB.platformLogos[IGDB.platforms[it]?.platform_logo]?.url}",
+                    model = "https:${it}",
                     contentDescription = null,
-                    //contentScale = ContentScale.Crop, rend tout carré mais déforme un peu trop les images
+                    //contentScale = ContentScale.Crop, makes everything square but alters the image
                     modifier = Modifier
                         .size(75.dp)
                         .height(75.dp)
@@ -95,7 +90,7 @@ fun GameScreen(gameDetail: GameDetail, modifier: Modifier, onNavigateToGameList:
             textDecoration = TextDecoration.Underline,
         )
         Text(
-            gameDetail.summary,
+            gameUpdated.summary,
             textAlign = TextAlign.Justify,
             modifier =
                 Modifier.verticalScroll(rememberScrollState())

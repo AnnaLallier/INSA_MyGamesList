@@ -33,6 +33,9 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+/**
+ * The main theme of the app
+ */
 @Composable
 fun MyGamesListTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

@@ -1,4 +1,5 @@
-package com.insa.mygamelist.ui.views
+package com.insa.mygamelist.ui.components
+
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,11 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -22,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.insa.mygamelist.data.Game
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,11 +27,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.insa.mygamelist.data.Favorites
-import com.insa.mygamelist.data.IGDB
+import com.insa.mygamelist.data.local.favorites.Favorites
+import com.insa.mygamelist.data.model.GameUpdated
 
+/**
+ * Component displaying a card for a game with its cover, name, genres, and favorite button
+ */
 @Composable
-fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
+fun GameCard(game: GameUpdated, modifier: Modifier) {
     var isFavorite by remember { mutableStateOf(Favorites.isFavorite(game.id)) }
 
     Card(
@@ -43,14 +43,14 @@ fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
 
-    ) {
+        ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
             AsyncImage(
-                model = "https:${IGDB.covers[game.cover]?.url}",
+                model = "https:${game.cover}",
                 contentDescription = null,
                 modifier = Modifier.size(100.dp)
             )
@@ -58,8 +58,12 @@ fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                Text(game.name, fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline)
-                Text("Genres : ${genres.joinToString()}")
+                Text(
+                    game.name,
+                    fontWeight = FontWeight.Bold,
+                    textDecoration = TextDecoration.Underline
+                )
+                Text("Genres : ${game.genres.joinToString()}")
             }
 
 
@@ -67,8 +71,7 @@ fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
                 onClick = {
                     if (isFavorite) {
                         Favorites.removeFavorite(game.id)
-                    }
-                    else {
+                    } else {
                         Favorites.addFavorite(game.id)
                     }
                     isFavorite = !isFavorite
@@ -93,5 +96,3 @@ fun GameCard(game: Game, genres : List<String>, modifier : Modifier) {
 
     }
 }
-
-
