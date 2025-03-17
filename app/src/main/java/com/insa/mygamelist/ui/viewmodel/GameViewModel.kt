@@ -1,9 +1,10 @@
-package com.insa.mygamelist.data
+package com.insa.mygamelist.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.insa.mygamelist.data.local.IGDBAirplaneMode
+import com.insa.mygamelist.data.local.favorites.JsonFavorites
 import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.data.remote.IGDBServiceAPI
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,21 @@ class GameViewModel : ViewModel() {
 
     private val _games = MutableStateFlow<List<GameUpdated>>(emptyList())
     val games: StateFlow<List<GameUpdated>> = _games.asStateFlow()
+
+    private val _favorites = MutableStateFlow<List<Long>>(JsonFavorites.favorites)
+
+    init {
+        fetchGames()
+    }
+
+    fun toggleFavorite(gameId: Long) {
+        if (_favorites.value.contains(gameId)) {
+            JsonFavorites.removeFavorite(gameId)
+        } else {
+            JsonFavorites.addFavorite(gameId)
+        }
+        _favorites.value = JsonFavorites.favorites // Update the state
+    }
 
     fun fetchGames() {
         viewModelScope.launch {

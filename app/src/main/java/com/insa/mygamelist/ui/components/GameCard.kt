@@ -1,6 +1,7 @@
 package com.insa.mygamelist.ui.components
 
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,12 +24,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import coil3.compose.AsyncImage
 import com.insa.mygamelist.data.local.favorites.Favorites
 import com.insa.mygamelist.data.model.GameUpdated
+import com.insa.mygamelist.ui.viewmodel.GameViewModel
 
 /**
  * Component displaying a card for a game with its cover, name, genres, and favorite button
@@ -36,6 +40,7 @@ import com.insa.mygamelist.data.model.GameUpdated
 @Composable
 fun GameCard(game: GameUpdated, modifier: Modifier) {
     var isFavorite by remember { mutableStateOf(Favorites.isFavorite(game.id)) }
+    val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -69,11 +74,7 @@ fun GameCard(game: GameUpdated, modifier: Modifier) {
 
             IconButton(
                 onClick = {
-                    if (isFavorite) {
-                        Favorites.removeFavorite(game.id)
-                    } else {
-                        Favorites.addFavorite(game.id)
-                    }
+                    gameViewModel.toggleFavorite(game.id)
                     isFavorite = !isFavorite
                 },
                 modifier = Modifier.size(40.dp)

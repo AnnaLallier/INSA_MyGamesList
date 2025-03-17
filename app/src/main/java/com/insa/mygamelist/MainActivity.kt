@@ -19,7 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.insa.mygamelist.data.local.favorites.Favorites
 import com.insa.mygamelist.data.model.GameUpdated
-import com.insa.mygamelist.data.GameViewModel
+import com.insa.mygamelist.ui.viewmodel.GameViewModel
 import com.insa.mygamelist.data.local.IGDBAirplaneMode
 import com.insa.mygamelist.data.local.favorites.JsonFavorites
 import com.insa.mygamelist.ui.components.MyAppBar

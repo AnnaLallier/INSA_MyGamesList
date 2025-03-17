@@ -23,12 +23,13 @@ fun ListOfGames(
     games: List<GameUpdated>,
     modifier: Modifier,
     navController: NavController,
-    research : String = ""
+    research : String = "" // The research to filter the games
 ) {
     val filteredGames = games.filter { game ->
         val researchLowerCase = research.lowercase()
 
-        research.isBlank() ||
+        research.isBlank() || // If the research is empty, all the games are displayed
+                // If it's not, only the games that contain the research in their name, genres or platforms are displayed
                 game.name.lowercase().contains(researchLowerCase) ||
                 game.genres.any { it.lowercase().contains(researchLowerCase) } ||
                 game.platforms_names.any { it.lowercase().contains(researchLowerCase) }

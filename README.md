@@ -4,8 +4,7 @@
 
 Application Kotlin permettant de parcourir une liste de jeux vidéos, de les consulter et de les ajouter à ses favoris.
 
-Utilisation de Jetpack Compose pour la partie UI.
-
+Jetpack Compose est utilisé pour la partie UI. Le projet est basé sur une architecture MVVM.
 
 ## Version
 
@@ -37,6 +36,7 @@ Forké à partir du projet [INSA_MyGamesList_20242025](https://github.com/Adjiza
 #### Général
 
 - Qualité du code (documentation sur les classes, commentaires, utilisation d'une seule langue - l'anglais - pour le code, etc.)
+- Le projet possède une architecture Model-View-ViewModel (MVVM)
 
 ## Documentations utilisées :
 
@@ -83,3 +83,7 @@ J'ai notamment utilisé les documentations suivantes (sans compter les pages Sta
 #### Json
 -  https://github.com/google/gson/blob/main/UserGuide.md
 -  https://medium.com/@hissain.khan/parsing-with-google-gson-library-in-android-kotlin-7920e26f5520
+
+#### MVVM
+- https://medium.com/@zorbeytorunoglu/mvvm-in-android-059e9aae84c1
+- https://medium.com/androidmood/comprendre-larchitecture-mvvm-sur-android-aa285e4fe9dd

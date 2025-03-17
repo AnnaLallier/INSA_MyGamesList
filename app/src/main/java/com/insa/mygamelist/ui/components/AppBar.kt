@@ -2,6 +2,7 @@ package com.insa.mygamelist.ui.components
 
 import android.app.Activity
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
@@ -27,11 +28,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.insa.mygamelist.data.local.favorites.Favorites
 import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.ui.navigation.Home
 import com.insa.mygamelist.ui.navigation.NameOfView
+import com.insa.mygamelist.ui.viewmodel.GameViewModel
 
 /**
  * AppBar of the application
@@ -43,23 +46,24 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
     val showDialogSearch = remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
     var isActive by remember { mutableStateOf(false) }
-    Log.d("MyAppBar", "gameId: $gameId, isFavorite: $isFavorite")
+    val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
 
+    // Set the action to do when the back button (<-) is pressed
     when {
         nameOfView == NameOfView.HOME && !showDialogSearch.value -> {
             val activity = (LocalContext.current as? Activity)
-            actionRetour = { activity?.finish() }
-
+            actionRetour = { activity?.finish() } // Close the app
         }
 
         nameOfView == NameOfView.GAMEDETAIL -> {
-            actionRetour = { navController.navigateUp() }
+            actionRetour = { navController.navigateUp() } // Go back to the previous screen
         }
 
         nameOfView == NameOfView.HOME && showDialogSearch.value -> {
-            actionRetour = { navController.navigate(route = Home)
-                showDialogSearch.value = false}
-
+            actionRetour = {
+                navController.navigate(route = Home) // Go back to the home screen
+                showDialogSearch.value = false // Hide the search bar
+            }
         }
 
         else -> {
@@ -116,13 +120,8 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
                     var rememberIsFavorite by remember { mutableStateOf(isFavorite) }
 
                     IconButton(
-
                         onClick = {
-                            if (rememberIsFavorite) {
-                                Favorites.removeFavorite(gameId)
-                            } else {
-                                Favorites.addFavorite(gameId)
-                            }
+                            gameViewModel.toggleFavorite(gameId)
                             rememberIsFavorite = !rememberIsFavorite
                         },
                         modifier = Modifier.size(40.dp)

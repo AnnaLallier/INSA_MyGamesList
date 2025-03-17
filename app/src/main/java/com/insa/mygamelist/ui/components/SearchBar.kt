@@ -15,7 +15,15 @@ import com.insa.mygamelist.data.model.GameUpdated
 /** Search bar of the application */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MySearchBar(innerPadding : PaddingValues, navController: NavController, query : String, varisActive : Boolean, onQueryChange: (String) -> Unit, onActiveChange: (Boolean) -> Unit, games : List<GameUpdated>) {
+fun MySearchBar(
+    innerPadding : PaddingValues,
+    navController: NavController,
+    query : String,
+    varisActive : Boolean,
+    onQueryChange: (String) -> Unit,
+    onActiveChange: (Boolean) -> Unit,
+    games : List<GameUpdated>
+) {
 
     SearchBar(
         query = query,
