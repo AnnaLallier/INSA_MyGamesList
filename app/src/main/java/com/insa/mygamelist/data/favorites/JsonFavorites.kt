@@ -1,12 +1,12 @@
-package com.insa.mygamelist.data
+package com.insa.mygamelist.data.favorites
 
 import android.content.Context
 import android.util.Log
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
-import com.insa.mygamelist.R
 import java.io.File
 
+/**Handles the saving and loading of favorites from and to a JSON file*/
 object JsonFavorites {
     lateinit var favorites :List<Long>
     private const val FILE_NAME = "favorites.json"
@@ -25,23 +25,18 @@ object JsonFavorites {
         if (file.exists()) {
             try {
                 val json = file.readText()
-                val favoritesFromJson : List<Long> = Gson().fromJson(json, object : TypeToken<List<Long>>() {}.type)
+                val favoritesFromJson : List<Long> = Gson().fromJson(
+                    json,
+                    object : TypeToken<List<Long>>() {}.type
+                )
                 favorites = favoritesFromJson.toMutableList()
             } catch (e: Exception) {
                 Log.e("JsonFavorites", "Error loading favorites", e)
             }
         } else {
-            Log.d("File doesn't exist", "Loading from raw")
-
-            try {
-                val inputStream = appContext.resources.openRawResource(R.raw.favorites)
-                val json = inputStream.bufferedReader().use { it.readText() }
-                val favoritesFromJson: List<Long> = Gson().fromJson(json, object : TypeToken<List<Long>>() {}.type)
-                favorites = favoritesFromJson.toMutableList()
-                saveFavorites()
-            } catch (e: Exception) {
-                Log.e("JsonFavorites", "Error loading favorites from raw", e)
-            }
+            Log.d("File favorites.json doesn't exist", "Initialisation of an empty list")
+            favorites = mutableListOf()
+            saveFavorites()
         }
 
         Log.d("Favorites", favorites.toString())
@@ -50,14 +45,14 @@ object JsonFavorites {
 
     fun addFavorite(id: Long) {
         if (!favorites.contains(id)) {
-            favorites+=id
+            favorites +=id
             saveFavorites()
         }
     }
 
     fun removeFavorite(id: Long) {
         if (favorites.contains(id)) {
-            favorites-=id
+            favorites -=id
             saveFavorites()
         }
     }
@@ -76,22 +71,4 @@ object JsonFavorites {
             Log.e("JsonFavorites", "Error saving favorites", e)
         }
     }
-}
-
-
-class Favorites {
-
-    companion object {
-        fun addFavorite(id: Long) {
-            JsonFavorites.addFavorite(id)
-
-        }
-        fun removeFavorite(id: Long) {
-            JsonFavorites.removeFavorite(id)
-        }
-        fun isFavorite(id: Long): Boolean {
-            return JsonFavorites.favorites.contains(id)
-        }
-    }
-
 }

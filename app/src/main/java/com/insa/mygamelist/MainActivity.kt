@@ -13,26 +13,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import androidx.navigation.toRoute
-import com.insa.mygamelist.data.Favorites
+import com.insa.mygamelist.data.favorites.Favorites
 import com.insa.mygamelist.data.GameUpdated
 import com.insa.mygamelist.data.GameViewModel
-import com.insa.mygamelist.data.IGDB
-import com.insa.mygamelist.data.JsonFavorites
+import com.insa.mygamelist.data.IGDBAirplaneMode
+import com.insa.mygamelist.data.favorites.JsonFavorites
 import com.insa.mygamelist.ui.MyAppBar
-import com.insa.mygamelist.ui.navigation.GameDetail
 import com.insa.mygamelist.ui.views.GameScreen
 import com.insa.mygamelist.ui.navigation.Home
 import com.insa.mygamelist.ui.navigation.Vue
 import com.insa.mygamelist.ui.views.ListOfGames
 import com.insa.mygamelist.ui.theme.MyGamesListTheme
-import kotlinx.serialization.json.Json
 
 class MainActivity : ComponentActivity() {
 
@@ -41,8 +37,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        IGDB.load(this)
+        IGDBAirplaneMode.init(this)
         JsonFavorites.init(this)
+
         gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         gameViewModel.fetchGames() // Start the API call to get the games
 

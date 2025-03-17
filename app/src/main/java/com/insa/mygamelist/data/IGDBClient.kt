@@ -5,6 +5,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import okhttp3.Interceptor
 
+/**
+ * Client used to interact with the IGDB API
+ */
 object IGDBClient {
     private const val URL_API = "https://api.igdb.com/v4/"
 
@@ -33,3 +36,4 @@ object IGDBClient {
         retrofit.create(IGDBApi::class.java)
     }
 }
+

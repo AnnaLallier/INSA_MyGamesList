@@ -28,7 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.insa.mygamelist.data.Favorites
+import com.insa.mygamelist.data.favorites.Favorites
 import com.insa.mygamelist.data.GameUpdated
 import com.insa.mygamelist.ui.navigation.Home
 import com.insa.mygamelist.ui.navigation.Vue

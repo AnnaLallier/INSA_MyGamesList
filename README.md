@@ -32,6 +32,7 @@ Forké à partir du projet [INSA_MyGamesList_20242025](https://github.com/Adjiza
 
 - Stockage des favoris et récupération à l'ouverture de l'application à partir d'un fichier JSON (voir le fichier `Favorites.kt`)
 
+Le projet a besoin des fichiers favorites.json et gamesUpdated.json
 
 ## Documentations utilisées :
 

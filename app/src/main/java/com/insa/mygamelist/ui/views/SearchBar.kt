@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.insa.mygamelist.data.GameUpdated
-import com.insa.mygamelist.data.IGDB
 
 
 @OptIn(ExperimentalMaterial3Api::class)
