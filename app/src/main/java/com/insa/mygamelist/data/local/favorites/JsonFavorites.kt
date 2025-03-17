@@ -36,7 +36,7 @@ object JsonFavorites {
                 Log.e("JsonFavorites", "Error loading favorites", e)
             }
         } else {
-            Log.d("File favorites.json doesn't exist", "Initialisation of an empty list")
+            Log.d("File favorites.json doesn't exist", "Initialization of an empty list")
             favorites = mutableListOf()
             saveFavorites()
         }
@@ -63,14 +63,14 @@ object JsonFavorites {
         try {
             val json = Gson().toJson(favorites)
             val file = File(appContext.filesDir, FILE_NAME)
-            Log.d("JsonFavorites", "Chemin du fichier : ${file.absolutePath}")
+            Log.d("JsonFavorites", "File path : ${file.absolutePath}")
             appContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE).use {
                 it.write(json.toByteArray())
             }
-            Log.d("JsonFavorites", "Favoris enregistrés : $favorites")
-            Log.d("JsonFavorites", "Contenu enregistré : ${file.readText()}")
+            //Log.d("JsonFavorites", "Favorites saved : $favorites")
+            Log.d("JsonFavorites", "Saved content : ${file.readText()}")
         } catch (e: Exception) {
-            Log.e("JsonFavorites", "Error saving favorites", e)
+            Log.e("JsonFavorites", "Error when saving favorites", e)
         }
     }
 }

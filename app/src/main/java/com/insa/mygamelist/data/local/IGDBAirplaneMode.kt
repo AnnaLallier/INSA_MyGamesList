@@ -38,7 +38,7 @@ object IGDBAirplaneMode {
                 Log.e("JsonFavorites", "Error loading favorites", e)
             }
         } else {
-            Log.d("File games_updated.json doesn't exist", "Initialisation of an empty list")
+            Log.d("File games_updated.json doesn't exist", "Initialization of an empty list")
             games = mutableListOf()
             saveGames()
         }
@@ -49,14 +49,14 @@ object IGDBAirplaneMode {
         try {
             val json = Gson().toJson(games)
             val file = File(appContext.filesDir, FILE_NAME)
-            Log.d("JsonGamesUpdated", "Chemin du fichier : ${file.absolutePath}")
+            Log.d("JsonGamesUpdated", "File path : ${file.absolutePath}")
             appContext.openFileOutput(FILE_NAME, Context.MODE_PRIVATE).use {
                 it.write(json.toByteArray())
             }
-            //Log.d("JsonGamesUpdated", "Jeux enregistrés : $games")
-            Log.d("JsonGamesUpdated", "Contenu enregistré : ${file.readText()}")
+            //Log.d("JsonGamesUpdated", "Games saved : $games")
+            Log.d("JsonGamesUpdated", "Content saved : ${file.readText()}")
         } catch (e: Exception) {
-            Log.e("JsonGamesUpdated", "Error saving games", e)
+            Log.e("JsonGamesUpdated", "Error when saving the games", e)
         }
     }
 }

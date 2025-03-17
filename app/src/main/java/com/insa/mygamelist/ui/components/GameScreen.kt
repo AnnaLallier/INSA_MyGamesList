@@ -59,7 +59,7 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
             contentDescription = null,
             modifier = Modifier.size(250.dp)
         )
-        var genres = gameUpdated.genres.toString() //TODO : see if it's useful
+        var genres = gameUpdated.genres.toString()
         genres = genres.replace("[", "")
         genres = genres.replace("]", "")
         Text(

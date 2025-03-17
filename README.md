@@ -34,6 +34,9 @@ Forké à partir du projet [INSA_MyGamesList_20242025](https://github.com/Adjiza
 - Stockage des favoris et récupération à l'ouverture de l'application à partir d'un fichier JSON
 - Mise en cache / mode offline pour les jeux. Pour cela les jeux sont stockés dans un fichier JSON (`games_updated.json`) lorsque l'application est lancée et parvient à récupérer les jeux depuis l'API. Si l'application est lancée sans connexion internet, elle ira chercher les jeux dans ce fichier. Donc pour que ce mode avion fonctionne, il faut que l'application ait été lancée au moins une fois avec une connexion internet.
 
+#### Général
+
+- Qualité du code (documentation sur les classes, commentaires, utilisation d'une seule langue - l'anglais - pour le code, etc.)
 
 ## Documentations utilisées :
 
