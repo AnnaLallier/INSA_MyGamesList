@@ -39,8 +39,8 @@ import com.insa.mygamelist.ui.navigation.NameOfView
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfView, gameId : Long, isFavorite : Boolean, games : List<GameUpdated>) {
-    var actionRetour: (() -> Unit)? = null
-    var showDialogSearch = remember { mutableStateOf(false) }
+    val actionRetour: (() -> Unit)?
+    val showDialogSearch = remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
     var isActive by remember { mutableStateOf(false) }
     Log.d("MyAppBar", "gameId: $gameId, isFavorite: $isFavorite")
@@ -148,7 +148,6 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
 
         if (showDialogSearch.value && nameOfView == NameOfView.HOME) {
             MySearchBar(
-                onDismissRequest = { showDialogSearch.value = false },
                 PaddingValues(start=0.0.dp, top=88.0.dp, end=0.0.dp, bottom=24.0.dp),
                 navController,
                 query, 
@@ -157,9 +156,6 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
                 { it -> isActive = it },
                 games
             )
-        }
-        else if (!showDialogSearch.value && nameOfView == NameOfView.GAMEDETAIL) {
-
         }
     }
 }

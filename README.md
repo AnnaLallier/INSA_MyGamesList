@@ -26,13 +26,14 @@ Forké à partir du projet [INSA_MyGamesList_20242025](https://github.com/Adjiza
 - **TP 3** Navigation
 - **TP 5** Recherche
 - **TP 6** Favoris
-- **TP 7** API
+- **TP 7** API (le seul point qui n'est pas implémenté est le fait que le token ne devrait pas être stocké en dur dans le code)
 
-### Bonus
+### Bonus implémentés
 
-- Stockage des favoris et récupération à l'ouverture de l'application à partir d'un fichier JSON (voir le fichier `Favorites.kt`)
+#### `insa.mygamelist.data.local`
+- Stockage des favoris et récupération à l'ouverture de l'application à partir d'un fichier JSON
+- Mise en cache / mode offline pour les jeux. Pour cela les jeux sont stockés dans un fichier JSON (`games_updated.json`) lorsque l'application est lancée et parvient à récupérer les jeux depuis l'API. Si l'application est lancée sans connexion internet, elle ira chercher les jeux dans ce fichier. Donc pour que ce mode avion fonctionne, il faut que l'application ait été lancée au moins une fois avec une connexion internet.
 
-Le projet a besoin des fichiers favorites.json et gamesUpdated.json
 
 ## Documentations utilisées :
 
