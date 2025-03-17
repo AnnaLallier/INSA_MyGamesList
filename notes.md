@@ -100,3 +100,22 @@ curl -X POST "https://api.igdb.com/v4/platform_logos" -H "Client-ID: sg16951bcbb
 curl -X POST "https://api.igdb.com/v4/platform_logos" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields *; limit 10;"
 
 curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields name, platforms.name, platforms.platform_logo.url; limit 10; where platforms.platform_logo != null;"
+
+curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.name, platforms.platform_logo.url, summary, total_rating;  limit 10; where platforms.platform_logo != null & total_rating > 75  & first_release_date > 1000000000  sort total_rating desc, first_release_date desc;"
+
+
+La cover de BOTW est :
+{
+"id": 172453,
+"url": "//images.igdb.com/igdb/image/upload/t_cover_big/co3p2d.jpg"
+},
+
+curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.name, platforms.platform_logo.url, summary, total_rating; limit 100; where platforms.platform_logo != null;"
+
+
+
+curl -X POST "https://api.igdb.com/v4/covers" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields *; limit 10;"
+
+https://api.igdb.com/v4/covers
+
+curl -X POST "https://api.igdb.com/v4/games" -H "Client-ID: sg16951bcbb49ntm5w2ma13r5vqtje" -H "Authorization: Bearer ygp92co7qdz0usoelrdlk6xbnz5ieb" -d "fields first_release_date, name, id; limit 10; where platforms.platform_logo != null ; sort first_release_date desc;"

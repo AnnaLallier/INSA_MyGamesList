@@ -23,8 +23,14 @@ class IGDBServiceAPI {
 
     suspend fun getGames(): List<GameUpdated>? {
         return withContext(Dispatchers.IO) {
-            // Request that gets everything needed for the game list, where the platform logo is not null
-            val queryAll = "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.name, platforms.platform_logo.url, summary, total_rating; limit 100; where platforms.platform_logo != null;"
+            // Request that gets everything needed for the game list, where the platform logo url is not null
+            val queryAll = "" +
+                    "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.name, platforms.platform_logo.url, summary, total_rating; " +
+                    "limit 100; " +
+                    "where platforms.platform_logo.url != null" +
+                    "& total_rating > 75;" +
+                    "sort total_rating desc; "
+
             val requestBody: RequestBody = queryAll.toRequestBody("text/plain".toMediaTypeOrNull())
 
             try {
@@ -42,7 +48,7 @@ class IGDBServiceAPI {
                     val finalGamesList = gamesList.map { gameJson ->
                         GameUpdated(
                             id = gameJson["id"].asLong,
-                            cover = gameJson["cover"]?.asJsonObject?.get("url")?.asString ?: "",
+                            cover = gameJson["cover"]?.asJsonObject?.get("url")?.asString?.replace("t_thumb", "t_cover_big") ?: "",
                             genres = gameJson["genres"]?.asJsonArray?.map {
                                 it.asJsonObject["name"].asString
                             }?.toList() ?: emptyList(),
