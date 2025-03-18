@@ -13,15 +13,25 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 /**
- * ViewModel used to fetch the games from the API, either from the Internet or locally
+ * ViewModel used to
+ * - Fetch the games from the API, either from the Internet or locally
+ * - Toggle the favorite status of a game
+ * - Handle the pagination
  */
 class GameViewModel : ViewModel() {
-    private val repository = IGDBServiceAPI()
-
+    // General
     private val _games = MutableStateFlow<List<GameUpdated>>(emptyList())
     val games: StateFlow<List<GameUpdated>> = _games.asStateFlow()
 
+    // API
+    private val repository = IGDBServiceAPI()
+
+    // Favorites
     private val _favorites = MutableStateFlow<List<Long>>(JsonFavorites.favorites)
+
+    // Pagination
+    private var currentPage = 1
+    private var isLoadingGames = false
 
     init {
         fetchGames()
@@ -37,25 +47,31 @@ class GameViewModel : ViewModel() {
     }
 
     fun fetchGames() {
-        viewModelScope.launch {
-            try {
-                val gamesList = repository.getGames()
-                if (gamesList.isNullOrEmpty()) {
-                    Log.d(
-                        "API-UPDATE",
-                        "Unable to get the data from Internet, it will be retrieved locally"
-                    )
-                    _games.value = IGDBAirplaneMode.games
+        if (!isLoadingGames) {
+            isLoadingGames = true
+            viewModelScope.launch {
+                try {
+                    val gamesList = repository.getGames(currentPage)
+                    if (gamesList.isNullOrEmpty()) {
+                        Log.d(
+                            "API-UPDATE",
+                            "Unable to get the data from Internet, it will be retrieved locally"
+                        )
+                        _games.value = IGDBAirplaneMode.games
 
-                } else {
-                    _games.value = gamesList
-                    IGDBAirplaneMode.games = gamesList
-                    IGDBAirplaneMode.saveGames()
+                    } else {
+                        _games.value += gamesList
+                        currentPage++
+                        isLoadingGames = false
+                        IGDBAirplaneMode.games = gamesList
+                        IGDBAirplaneMode.saveGames()
 
+                    }
+                } catch (e: Exception) {
+                    Log.e("API-ERROR", "Unable to retrieve the data from Internet or locally")
                 }
-            } catch(e: Exception) {
-                Log.e("API-ERROR", "Unable to retrieve the data from Internet or locally")
             }
         }
+        return // Do nothing if the games are already loading
     }
 }

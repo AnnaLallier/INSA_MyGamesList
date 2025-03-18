@@ -1,6 +1,7 @@
 package com.insa.mygamelist.ui.components
 
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,11 +9,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.insa.mygamelist.data.model.GameUpdated
+import com.insa.mygamelist.ui.viewmodel.GameViewModel
 
 
 /**
@@ -25,6 +30,9 @@ fun ListOfGames(
     navController: NavController,
     research : String = "" // The research to filter the games
 ) {
+
+    val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(
+        GameViewModel::class.java)
     val filteredGames = games.filter { game ->
         val researchLowerCase = research.lowercase()
 
@@ -64,6 +72,15 @@ fun ListOfGames(
                             )
                         }
                 )
+            }
+            item {
+                if (filteredGames.isNotEmpty()) {
+                    LaunchedEffect(filteredGames.size) {
+                        Log.d("PAGINATION", "Load more games")
+                        gameViewModel.fetchGames()
+                    }
+
+                }
             }
         }
     }
