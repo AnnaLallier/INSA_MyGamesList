@@ -22,6 +22,7 @@ class GameViewModel : ViewModel() {
     // General
     private val _games = MutableStateFlow<List<GameUpdated>>(emptyList())
     val games: StateFlow<List<GameUpdated>> = _games.asStateFlow()
+    var offline = false
 
     // API
     private val repository = IGDBServiceAPI()
@@ -31,7 +32,8 @@ class GameViewModel : ViewModel() {
 
     // Pagination
     private var currentPage = 1
-    public var isLoadingGames = false
+    var isLoadingGames = false
+
 
     init {
         fetchGames()
@@ -58,6 +60,7 @@ class GameViewModel : ViewModel() {
                             "Unable to get the data from Internet, it will be retrieved locally"
                         )
                         _games.value = IGDBAirplaneMode.games
+                        offline = true
 
                     } else {
                         _games.value += gamesList
@@ -65,7 +68,7 @@ class GameViewModel : ViewModel() {
                         isLoadingGames = false
                         IGDBAirplaneMode.games = gamesList
                         IGDBAirplaneMode.saveGames()
-
+                        offline = false
                     }
                 } catch (e: Exception) {
                     Log.e("API-ERROR", "Unable to retrieve the data from Internet or locally")

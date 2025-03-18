@@ -1,11 +1,12 @@
 package com.insa.mygamelist.ui.components
 
 import android.app.Activity
-import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -30,7 +31,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import com.insa.mygamelist.data.local.favorites.Favorites
 import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.ui.navigation.Home
 import com.insa.mygamelist.ui.navigation.NameOfView
@@ -80,8 +80,9 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
             title = {
                 Text(
                     titre,
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             },
             navigationIcon = {
