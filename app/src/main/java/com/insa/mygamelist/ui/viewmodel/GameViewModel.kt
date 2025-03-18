@@ -31,7 +31,7 @@ class GameViewModel : ViewModel() {
 
     // Pagination
     private var currentPage = 1
-    private var isLoadingGames = false
+    public var isLoadingGames = false
 
     init {
         fetchGames()

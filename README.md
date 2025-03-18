@@ -79,6 +79,7 @@ J'ai notamment utilisé les documentations suivantes (sans compter les pages Sta
 - https://developer.android.com/topic/libraries/architecture/coroutines
 - https://medium.com/exploring-android/android-networking-with-coroutines-and-retrofit-a2f20dd40a83
 - https://www.axopen.com/blog/2021/01/retrofit-projet-android-kotlin/
+- https://developer.android.com/reference/com/google/android/material/progressindicator/LinearProgressIndicator
 
 #### Json
 -  https://github.com/google/gson/blob/main/UserGuide.md

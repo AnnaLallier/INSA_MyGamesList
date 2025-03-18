@@ -1,12 +1,16 @@
 package com.insa.mygamelist.ui.components
 
 import android.util.Log
+import android.widget.ProgressBar
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -74,7 +78,10 @@ fun ListOfGames(
                 )
             }
             item {
-                if (filteredGames.isNotEmpty()) {
+                if (gameViewModel.isLoadingGames) {
+                    Log.d("PAGINATION", "Loading games")
+                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth().padding(16.dp))
+                } else if (filteredGames.isNotEmpty()) {
                     LaunchedEffect(filteredGames.size) {
                         Log.d("PAGINATION", "Load more games")
                         gameViewModel.fetchGames()
