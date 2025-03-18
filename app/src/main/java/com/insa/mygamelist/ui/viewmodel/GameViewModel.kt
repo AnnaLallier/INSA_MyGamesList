@@ -22,10 +22,17 @@ class GameViewModel : ViewModel() {
     // General
     private val _games = MutableStateFlow<List<GameUpdated>>(emptyList())
     val games: StateFlow<List<GameUpdated>> = _games.asStateFlow()
-    var offline = false
 
     // API
     private val repository = IGDBServiceAPI()
+    var offline = false
+
+    //Research
+    private val _filteredGames = MutableStateFlow<List<GameUpdated>>(emptyList())
+    val filteredGames: StateFlow<List<GameUpdated>> = _filteredGames
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery
 
     // Favorites
     private val _favorites = MutableStateFlow<List<Long>>(JsonFavorites.favorites)
@@ -39,6 +46,9 @@ class GameViewModel : ViewModel() {
         fetchGames()
     }
 
+    /**
+     * Toggle the favorite status of a game by adding or removing it from the JSON containing the favorites
+     */
     fun toggleFavorite(gameId: Long) {
         if (_favorites.value.contains(gameId)) {
             JsonFavorites.removeFavorite(gameId)
@@ -48,12 +58,17 @@ class GameViewModel : ViewModel() {
         _favorites.value = JsonFavorites.favorites // Update the state
     }
 
+    /**
+     * Fetch the games from the API
+     */
     fun fetchGames() {
         if (!isLoadingGames) {
             isLoadingGames = true
             viewModelScope.launch {
                 try {
                     val gamesList = repository.getGames(currentPage)
+
+                    // If the app is Offline
                     if (gamesList.isNullOrEmpty()) {
                         Log.d(
                             "API-UPDATE",
@@ -61,8 +76,10 @@ class GameViewModel : ViewModel() {
                         )
                         _games.value = IGDBAirplaneMode.games
                         offline = true
+                    }
 
-                    } else {
+                    // If the app is Online
+                    else {
                         _games.value += gamesList
                         currentPage++
                         isLoadingGames = false
@@ -70,11 +87,36 @@ class GameViewModel : ViewModel() {
                         IGDBAirplaneMode.saveGames()
                         offline = false
                     }
+
+                    filterGames() // Filter the games according to the search query
+
                 } catch (e: Exception) {
                     Log.e("API-ERROR", "Unable to retrieve the data from Internet or locally")
                 }
             }
         }
         return // Do nothing if the games are already loading
+    }
+
+    /**
+     * Update the search query and filter the games accordingly
+     */
+    fun updateSearchQuery(query: String) {
+        _searchQuery.value = query
+        filterGames()
+    }
+
+    /**
+     * Filter the games according to the search query
+     */
+    private fun filterGames() {
+        _filteredGames.value = _games.value.filter { game ->
+            val researchLowerCase = _searchQuery.value.lowercase()
+
+            _searchQuery.value.isBlank() ||
+                    game.name.lowercase().contains(researchLowerCase) ||
+                    game.genres.any { it.lowercase().contains(researchLowerCase) } ||
+                    game.platforms_names.any { it.lowercase().contains(researchLowerCase) }
+        }
     }
 }

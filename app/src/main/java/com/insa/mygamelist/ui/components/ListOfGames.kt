@@ -18,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -33,23 +35,12 @@ import com.insa.mygamelist.ui.viewmodel.GameViewModel
  */
 @Composable
 fun ListOfGames(
-    games: List<GameUpdated>,
     modifier: Modifier,
-    navController: NavController,
-    research : String = "" // The research to filter the games
+    navController: NavController
 ) {
 
-    val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(
-        GameViewModel::class.java)
-    val filteredGames = games.filter { game ->
-        val researchLowerCase = research.lowercase()
-
-        research.isBlank() || // If the research is empty, all the games are displayed
-                // If it's not, only the games that contain the research in their name, genres or platforms are displayed
-                game.name.lowercase().contains(researchLowerCase) ||
-                game.genres.any { it.lowercase().contains(researchLowerCase) } ||
-                game.platforms_names.any { it.lowercase().contains(researchLowerCase) }
-    }
+    val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
+    val filteredGames by gameViewModel.filteredGames.collectAsState()
 
     if (filteredGames.isEmpty()) {
         Text(

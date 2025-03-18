@@ -50,17 +50,21 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
 
     // Set the action to do when the back button (<-) is pressed
     when {
+        // From the home screen, close the app
         nameOfView == NameOfView.HOME && !showDialogSearch.value -> {
             val activity = (LocalContext.current as? Activity)
             actionRetour = { activity?.finish() } // Close the app
         }
 
+        // From the game details screen, go back to the home screen or the search screen
         nameOfView == NameOfView.GAMEDETAIL -> {
             actionRetour = { navController.navigateUp() } // Go back to the previous screen
         }
 
+        // From the search screen, go back to the home screen
         nameOfView == NameOfView.HOME && showDialogSearch.value -> {
             actionRetour = {
+                gameViewModel.updateSearchQuery("") // Clear the search query, very much useful!
                 navController.navigate(route = Home) // Go back to the home screen
                 showDialogSearch.value = false // Hide the search bar
             }
@@ -150,11 +154,6 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
             MySearchBar(
                 PaddingValues(start=0.0.dp, top=88.0.dp, end=0.0.dp, bottom=24.0.dp),
                 navController,
-                query, 
-                isActive,
-                { it -> query = it },
-                { it -> isActive = it },
-                games
             )
         }
     }

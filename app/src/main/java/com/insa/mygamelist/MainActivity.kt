@@ -81,7 +81,6 @@ class MainActivity : ComponentActivity() {
                         // Home screen, displaying the list of games
                         composable<Home> {
                             ListOfGames(
-                                games = gamesLoaded,
                                 modifier = Modifier.padding(innerPadding),
                                 navController
                             )
