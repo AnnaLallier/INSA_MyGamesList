@@ -30,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -82,7 +83,7 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
     Column {
         CenterAlignedTopAppBar(
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                containerColor = Color(0xFFAAB9F5),
                 titleContentColor = MaterialTheme.colorScheme.primary,
             ),
             title = { // Title of the app bar
@@ -96,9 +97,11 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
 
                     Text(
                         titre,
-                        modifier = Modifier.weight(1f).horizontalScroll(rememberScrollState()),
+                        modifier = Modifier
+                            .weight(1f)
+                            .horizontalScroll(rememberScrollState()),
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
+                        overflow = TextOverflow.Ellipsis
                     )
                     if (nameOfView == NameOfView.HOME) {
                         IconButton(

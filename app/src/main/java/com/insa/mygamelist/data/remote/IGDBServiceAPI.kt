@@ -28,8 +28,8 @@ class IGDBServiceAPI {
                 "limit 100; " +
                 "offset ${currentPage * 10}; " +
                 "where platforms.platform_logo.url != null" +
-                "& genres != null" +
-                "& total_rating > 75;" +
+                "& genres != null;" +
+                //"& total_rating > 75;" +
                 "sort total_rating desc; "
         return queryAll
     }
@@ -65,7 +65,7 @@ class IGDBServiceAPI {
                                 it.asJsonObject["name"].asString
                             }?.toList() ?: emptyList(),
                             platforms_url = gameJson["platforms"]?.asJsonArray?.mapNotNull {
-                                it.asJsonObject["platform_logo"]?.asJsonObject?.get("url")?.asString
+                                it.asJsonObject["platform_logo"]?.asJsonObject?.get("url")?.asString?.replace("t_thumb", "t_logo_med")?.replace("jpg", "png")
                             }?.toList() ?: emptyList(),
                             summary = gameJson["summary"]?.asString ?: "",
                             total_rating = gameJson["total_rating"]?.asFloat ?: 0.0f

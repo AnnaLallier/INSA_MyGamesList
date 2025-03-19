@@ -1,10 +1,13 @@
 package com.insa.mygamelist.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +26,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
@@ -57,18 +60,25 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
             fontWeight = FontWeight.Bold,
             textDecoration = TextDecoration.Underline,
         )  */
-        AsyncImage(
-            model = "https:${gameUpdated.cover}",
-            contentDescription = "Game Cover",
-            modifier = Modifier
-                .size(250.dp)
 
-                .clip(RoundedCornerShape(8.dp))
+        // Cover image
+        Box( // The box is needed to resize the image and use clip
+            modifier = Modifier.fillMaxWidth(.5f)
+        ) {
+            AsyncImage(
+                model = "https:${gameUpdated.cover}",
+                contentDescription = "Game Cover",
+                modifier = Modifier
+                    .padding(3.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .fillMaxWidth()
 
-        )
+            )
+        }
+
+        // Genres
         var genres = gameUpdated.genres.toString()
-        genres = genres.replace("[", "")
-        genres = genres.replace("]", "")
+        genres = genres.replace("[", "").replace("]", "")
         Text(
             genres,
             fontStyle = FontStyle.Italic,
@@ -81,12 +91,13 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
 
         ) {
             gameUpdated.platforms_url.forEach {
+                Log.d("PLATFORM URL", "https:${it}")
                 AsyncImage(
                     model = "https:${it}",
                     contentDescription = "Platform logos",
                     //contentScale = ContentScale.Crop, makes everything square but alters the image
                     modifier = Modifier
-                        .size(75.dp)
+                        .size(105.dp)
                         .height(75.dp)
                         .padding(8.dp)
                         .clip(RoundedCornerShape(8.dp))
@@ -99,7 +110,7 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
                 withStyle(
                     SpanStyle(
                         brush = Brush.linearGradient(
-                            colors  = listOf(Color.Black, Color(0xFF6375ab))
+                            colors  = listOf(Color(0xFF0f1552), Color(0xFF92A6E1))
                         )
                     )
                 ) {
@@ -117,8 +128,14 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
 
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onNavigateToGameList) {
-            Text("Back to game list")
+        Button(
+            onClick = onNavigateToGameList,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF495A9A),
+
+            )
+        ) {
+            Text("BACK TO GAME LIST")
         }
     }
 }

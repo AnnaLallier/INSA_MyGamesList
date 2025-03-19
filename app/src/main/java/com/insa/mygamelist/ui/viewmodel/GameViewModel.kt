@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
  * ViewModel used to
  * - Fetch the games from the API, either from the Internet or locally
  * - Toggle the favorite status of a game
+ * - Toggle the display of only the favorite games
  * - Handle the pagination
  */
 class GameViewModel : ViewModel() {
@@ -50,18 +51,6 @@ class GameViewModel : ViewModel() {
 
     init {
         fetchGames()
-    }
-
-    /**
-     * Toggle the favorite status of a game by adding or removing it from the JSON containing the favorites
-     */
-    fun toggleFavorite(gameId: Long) {
-        if (_favorites.value.contains(gameId)) {
-            JsonFavorites.removeFavorite(gameId)
-        } else {
-            JsonFavorites.addFavorite(gameId)
-        }
-        _favorites.value = JsonFavorites.favorites // Update the state
     }
 
     /**
@@ -136,6 +125,21 @@ class GameViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Toggle the favorite status of a game by adding or removing it from the JSON containing the favorites
+     */
+    fun toggleFavorite(gameId: Long) {
+        if (_favorites.value.contains(gameId)) {
+            JsonFavorites.removeFavorite(gameId)
+        } else {
+            JsonFavorites.addFavorite(gameId)
+        }
+        _favorites.value = JsonFavorites.favorites // Update the state
+    }
+
+    /**
+     * Toggle the display of only the favorite games
+     */
     fun toggleShowOnlyFavorites() {
         if (_toggleFavoritesOnly.value) {
             _toggleFavoritesOnly.value = false

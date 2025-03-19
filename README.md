@@ -36,9 +36,9 @@ Forké à partir du projet [INSA_MyGamesList_20242025](https://github.com/Adjiza
 
 #### `insa.mygamelist.data.local`
 - Stockage des favoris et récupération à l'ouverture de l'application à partir d'un fichier JSON
-- Mise en cache / mode offline pour les jeux. Pour cela les jeux sont stockés dans un fichier JSON (`games_updated.json`) lorsque l'application est parvient à récupérer les jeux depuis l'API (soit au lancement et dès qu'une nouvelle requête est faite pour récupérer plus de jeux). Si l'application est lancée sans connexion internet, elle ira chercher les jeux dans ce fichier. Donc pour que ce mode avion fonctionne, il faut que l'application ait été lancée au moins une fois avec une connexion internet. 
+- Mise en cache / mode offline pour les jeux. Pour cela les jeux sont stockés dans un fichier JSON (`games_updated.json`) lorsque l'application parvient à récupérer les jeux depuis l'API (soit au lancement et dès qu'une nouvelle requête est faite pour récupérer plus de jeux). Si l'application est lancée sans connexion internet, elle ira chercher les jeux dans ce fichier. Donc pour que ce mode avion fonctionne, il faut que l'application ait été lancée au moins une fois avec une connexion internet. 
   - Afin qu'il ne soit pas nécessaire de la redémarrer si le téléphone a été mis un brève moment en mode avion ou si la connexion Internet était de mauvaise qualité, l'application retentera toujours de récupérer des jeux depuis l'API. 
-  - Un message est affiché à la fin de la liste des jeux, à la place de la barre de chargement habituelle, pour indiquer que les jeux affichés sont ceux stockés localement.
+  - Un message est affiché à la fin de la liste des jeux, à la place de la barre de chargement habituelle, pour indiquer que l'application est hors-ligne.
 
 
 #### Général
@@ -79,7 +79,8 @@ J'ai notamment utilisé les documentations suivantes (sans compter les pages Sta
 #### SearchBar
 - https://medium.com/@desilio/searchbar-with-jetpack-compose-and-material-design-3-1f735f383c1f
 - https://composables.com/material3/searchbar
-
+- https://stackoverflow.com/questions/75541072/how-can-i-make-this-custom-text-search-field-in-jetpack-compose
+- 
 
 #### API
 - https://api-docs.igdb.com/
