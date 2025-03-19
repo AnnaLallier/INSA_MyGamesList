@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.insa.mygamelist.data.local.IGDBAirplaneMode
-import com.insa.mygamelist.data.local.favorites.JsonFavorites
+import com.insa.mygamelist.data.local.JsonFavorites
 import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.data.remote.IGDBServiceAPI
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +27,14 @@ class GameViewModel : ViewModel() {
     private val repository = IGDBServiceAPI()
     var offline = false
 
+    // Favorites
+    private val _favorites = MutableStateFlow<List<Long>>(JsonFavorites.favorites)
+    var favorites : StateFlow<List<Long>> = _favorites
+
+    // Pagination
+    private var currentPage = 1
+    private val _isLoadingGames = MutableStateFlow(false)
+
     //Research
     private val _filteredGames = MutableStateFlow<List<GameUpdated>>(emptyList())
     val filteredGames: StateFlow<List<GameUpdated>> = _filteredGames
@@ -34,12 +42,12 @@ class GameViewModel : ViewModel() {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
-    // Favorites
-    private val _favorites = MutableStateFlow<List<Long>>(JsonFavorites.favorites)
+    // ---- Research and favorites
+    private val _toggleFavoritesOnly = MutableStateFlow(false)
+    val toggleFavoritesOnly: StateFlow<Boolean> = _toggleFavoritesOnly
+    private val _allFilteredGames = MutableStateFlow<List<GameUpdated>>(emptyList())
 
-    // Pagination
-    private var currentPage = 1
-    private val _isLoadingGames = MutableStateFlow(false)
+
 
     init {
         fetchGames()
@@ -118,5 +126,25 @@ class GameViewModel : ViewModel() {
                     game.genres.any { it.lowercase().contains(researchLowerCase) } ||
                     game.platforms_names.any { it.lowercase().contains(researchLowerCase) }
         }
+        if (_toggleFavoritesOnly.value) {
+            _allFilteredGames.value = _filteredGames.value
+            _filteredGames.value = _filteredGames.value.filter { game ->
+                _favorites.value.contains(game.id)
+            }
+        }
     }
+
+    fun toggleShowOnlyFavorites() {
+        if (_toggleFavoritesOnly.value) {
+            _toggleFavoritesOnly.value = false
+            _filteredGames.value = _allFilteredGames.value
+        } else {
+            _toggleFavoritesOnly.value = true
+            _allFilteredGames.value = _filteredGames.value
+            _filteredGames.value = _filteredGames.value.filter { game ->
+                _favorites.value.contains(game.id)
+            }
+        }
+    }
+
 }

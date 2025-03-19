@@ -4,6 +4,12 @@ Ne pas inclure le répertoire de build dans le rendu moodle
 Mettre des commentaires;...
 
 TODO :
+!!!!!! tester sur un autre tel 
+!!!!!! README + Bonus
+!!!!!! 100 jeux
+!!!!!! Offline back to online 
+
+
 - Barre de recherche, dans le fichier SearchAlert !!!
 
 La prof veut qu'on mette un fichier README expliquant ce qu'on a fait

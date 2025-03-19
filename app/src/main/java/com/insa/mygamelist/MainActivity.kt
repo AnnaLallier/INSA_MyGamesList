@@ -17,11 +17,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.insa.mygamelist.data.local.favorites.Favorites
 import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.ui.viewmodel.GameViewModel
 import com.insa.mygamelist.data.local.IGDBAirplaneMode
-import com.insa.mygamelist.data.local.favorites.JsonFavorites
+import com.insa.mygamelist.data.local.JsonFavorites
 import com.insa.mygamelist.ui.components.MyAppBar
 import com.insa.mygamelist.ui.components.GameScreen
 import com.insa.mygamelist.ui.navigation.Home
@@ -68,7 +67,6 @@ class MainActivity : ComponentActivity() {
                     val gameUpdated = currentBackStackEntryState?.toRoute<GameUpdated>()
                     titre = gameUpdated?.name ?: "Error when retrieving the title"
                     gameId = gameUpdated?.id ?: 0
-                    isFavorite = Favorites.isFavorite(gameId) // Display the correct icon if the game is a favorite or not
                     nameOfView = NameOfView.GAMEDETAIL
                 }
             }

@@ -1,6 +1,7 @@
 package com.insa.mygamelist.ui.components
 
 
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,10 +18,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,7 +29,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import coil3.compose.AsyncImage
-import com.insa.mygamelist.data.local.favorites.Favorites
 import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.ui.viewmodel.GameViewModel
 
@@ -39,8 +37,9 @@ import com.insa.mygamelist.ui.viewmodel.GameViewModel
  */
 @Composable
 fun GameCard(game: GameUpdated, modifier: Modifier) {
-    var isFavorite by remember { mutableStateOf(Favorites.isFavorite(game.id)) }
     val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
+    val favorites by gameViewModel.favorites.collectAsState()
+    val isFavorite = favorites.contains(game.id)
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -75,23 +74,15 @@ fun GameCard(game: GameUpdated, modifier: Modifier) {
             IconButton(
                 onClick = {
                     gameViewModel.toggleFavorite(game.id)
-                    isFavorite = !isFavorite
                 },
                 modifier = Modifier.size(40.dp)
             ) {
-                if (isFavorite) {
-                    Icon(
-                        imageVector = Icons.Outlined.Favorite,
-                        contentDescription = "Remove from Favorites",
-                        modifier = Modifier.size(40.dp)
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Outlined.FavoriteBorder,
-                        contentDescription = "Add to Favorites",
-                        modifier = Modifier.size(40.dp)
-                    )
-                }
+                if (isFavorite) Log.d("FAVORITE ${game.id}", "FAVORITE") else Log.d("FAVORITE ${game.id}", "NOT FAVORITE")
+                Icon(
+                    imageVector = if (isFavorite) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
+                    contentDescription = if (isFavorite) "Remove from Favorites" else "Add to Favorites",
+                    modifier = Modifier.size(40.dp)
+                )
             }
         }
 

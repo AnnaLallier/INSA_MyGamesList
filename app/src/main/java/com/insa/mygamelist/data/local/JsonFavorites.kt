@@ -1,4 +1,4 @@
-package com.insa.mygamelist.data.local.favorites
+package com.insa.mygamelist.data.local
 
 import android.content.Context
 import android.util.Log

@@ -3,7 +3,11 @@ package com.insa.mygamelist.ui.components
 import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
@@ -20,10 +24,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,6 +48,9 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
     val actionRetour: (() -> Unit)?
     val showDialogSearch = remember { mutableStateOf(false) }
     val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
+    val toggleOnlyFavorites by gameViewModel.toggleFavoritesOnly.collectAsState()
+    val favorites by gameViewModel.favorites.collectAsState()
+    val isFavorite = favorites.contains(gameId)
 
     // Sets the action to do when the back button (<-) is pressed
     when {
@@ -77,15 +85,46 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 titleContentColor = MaterialTheme.colorScheme.primary,
             ),
-            title = {
-                Text(
-                    titre,
-                    modifier = Modifier.horizontalScroll(rememberScrollState()),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+            title = { // Title of the app bar
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Text(
+                        titre,
+                        modifier = Modifier.weight(1f).horizontalScroll(rememberScrollState()),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    if (nameOfView == NameOfView.HOME) {
+                        IconButton(
+                            onClick = {
+                                gameViewModel.toggleShowOnlyFavorites()
+                            }
+                        ) {
+                            if (toggleOnlyFavorites) { // Show only favorites
+                                Icon(
+                                    imageVector = Icons.Outlined.Favorite,
+                                    contentDescription = "Show only favorites",
+                                    modifier = Modifier.size(25.dp)
+                                )
+                            } else { // Show all games
+                                Icon(
+                                    imageVector = Icons.Outlined.FavoriteBorder,
+                                    contentDescription = "Show all games",
+                                    modifier = Modifier.size(25.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+
             },
-            navigationIcon = {
+            navigationIcon = { // Back button <-
                 IconButton(
                     onClick = { actionRetour() }) {
                     Icon(
@@ -96,6 +135,7 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
             },
 
             actions = {
+                // Actions of the app bar (search)
                 if (nameOfView != NameOfView.GAMEDETAIL) {
                     IconButton(onClick = {
                         if (showDialogSearch.value) {
@@ -117,35 +157,26 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
                         }
                     }
                 }
-                else if (nameOfView == NameOfView.GAMEDETAIL) {
-                    var rememberIsFavorite by remember { mutableStateOf(isFavorite) }
 
+                // Actions of the app bar (favorite)
+                else if (nameOfView == NameOfView.GAMEDETAIL) {
                     IconButton(
                         onClick = {
                             gameViewModel.toggleFavorite(gameId)
-                            rememberIsFavorite = !rememberIsFavorite
                         },
                         modifier = Modifier.size(40.dp)
                     ) {
-                        if (rememberIsFavorite) {
-                            Icon(
-                                imageVector = Icons.Outlined.Favorite,
-                                contentDescription = "Remove from Favorites",
-                                modifier = Modifier.size(40.dp)
-                            )
-                        } else {
-                            Icon(
-                                imageVector = Icons.Outlined.FavoriteBorder,
-                                contentDescription = "Add to Favorites",
-                                modifier = Modifier.size(40.dp)
-                            )
-                        }
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Outlined.Favorite else  Icons.Outlined.FavoriteBorder,
+                            contentDescription =  if (isFavorite) "Remove from Favorites" else "Add to Favorites",
+                            modifier = Modifier.size(40.dp)
+                        )
                     }
                 }
-
             }
         )
 
+        // Show the search bar on the Home screen
         if (showDialogSearch.value && nameOfView == NameOfView.HOME) {
             MySearchBar()
         }
