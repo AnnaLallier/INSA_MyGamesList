@@ -1,12 +1,12 @@
 package com.insa.mygamelist.ui.components
 
 
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -22,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -56,7 +57,9 @@ fun GameCard(game: GameUpdated, modifier: Modifier) {
             AsyncImage(
                 model = "https:${game.cover}",
                 contentDescription = null,
-                modifier = Modifier.size(100.dp)
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(8.dp))
             )
 
             Column(
@@ -77,7 +80,6 @@ fun GameCard(game: GameUpdated, modifier: Modifier) {
                 },
                 modifier = Modifier.size(40.dp)
             ) {
-                if (isFavorite) Log.d("FAVORITE ${game.id}", "FAVORITE") else Log.d("FAVORITE ${game.id}", "NOT FAVORITE")
                 Icon(
                     imageVector = if (isFavorite) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
                     contentDescription = if (isFavorite) "Remove from Favorites" else "Add to Favorites",

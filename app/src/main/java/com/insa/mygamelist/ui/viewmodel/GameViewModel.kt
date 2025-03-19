@@ -21,11 +21,11 @@ import kotlinx.coroutines.launch
 class GameViewModel : ViewModel() {
     // General
     private val _games = MutableStateFlow<List<GameUpdated>>(emptyList())
-    val games: StateFlow<List<GameUpdated>> = _games.asStateFlow()
 
     // API
     private val repository = IGDBServiceAPI()
-    var offline = false
+    private var _offline = MutableStateFlow(false)
+    var offline : StateFlow<Boolean> = _offline
 
     // Favorites
     private val _favorites = MutableStateFlow<List<Long>>(JsonFavorites.favorites)
@@ -82,16 +82,19 @@ class GameViewModel : ViewModel() {
                             "Unable to get the data from Internet, it will be retrieved locally"
                         )
                         _games.value = IGDBAirplaneMode.games
-                        offline = true
+                        _offline.value = true
+                        _isLoadingGames.value = false
                     }
 
                     // If the app is Online
                     else {
-                        _games.value += gamesList
+                        Log.d("API-UPDATE", "Data retrieved from the Internet")
+
+                        _games.value += gamesList.filter { newGame -> _games.value.none { it.id == newGame.id } }
                         currentPage++
                         IGDBAirplaneMode.games = _games.value
                         IGDBAirplaneMode.saveGames()
-                        offline = false
+                        _offline.value = false
                         _isLoadingGames.value = false
 
                     }

@@ -21,17 +21,19 @@ import java.net.ConnectException
 class IGDBServiceAPI {
     private val gson = Gson()
 
-    fun query(currentPage : Int) : String {
+    private fun query(currentPage : Int) : String {
         // Request that gets everything needed for the game list, where the platform logo url is not null
-        val queryAll = "" + //TODO : filter DLC
+        val queryAll = "" +
                 "fields id, cover.id, cover.url, first_release_date, genres.id, genres.name, name, platforms.name, platforms.platform_logo.url, summary, total_rating; " +
-                "limit 10; " +
+                "limit 100; " +
                 "offset ${currentPage * 10}; " +
                 "where platforms.platform_logo.url != null" +
+                "& genres != null" +
                 "& total_rating > 75;" +
                 "sort total_rating desc; "
         return queryAll
     }
+
     suspend fun getGames(currentPage : Int): List<GameUpdated>? {
         return withContext(Dispatchers.IO) {
 

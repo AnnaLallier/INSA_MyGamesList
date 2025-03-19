@@ -44,13 +44,14 @@ fun ListOfGames(
         ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
     val filteredGames by gameViewModel.filteredGames.collectAsState()
     val searchQuery by gameViewModel.searchQuery.collectAsState()
+    val isOffline by gameViewModel.offline.collectAsState()
 
     Column(modifier = modifier.fillMaxSize()) { // Column to display the list of games
         when { // When no games are found
             filteredGames.isEmpty() && searchQuery != "" -> {
                 //Log.d("NO GAMES", "No games found")
 
-                if (!gameViewModel.offline) {
+                if (!isOffline) {
                     LinearProgressIndicator(modifier = Modifier.fillMaxWidth().padding(16.dp))
                 }
 
@@ -90,7 +91,16 @@ fun ListOfGames(
                     }
 
                     item { // Progress bar and offline message
-                        if (gameViewModel.offline) {
+                        LaunchedEffect(filteredGames.size / 2) {
+                            Log.d("PAGINATION", "Instruction : load more games")
+                            gameViewModel.fetchGames()
+                        }
+
+                        if (!isOffline) {
+                            LinearProgressIndicator(
+                                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                            )
+                        } else {
                             Row(
                                 Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.Center
@@ -104,14 +114,6 @@ fun ListOfGames(
                                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 )
                             }
-                        } else {
-                            LaunchedEffect(filteredGames.size / 2) {
-                                Log.d("PAGINATION", "Instruction : load more games")
-                                gameViewModel.fetchGames()
-                            }
-
-                            LinearProgressIndicator(modifier = Modifier.fillMaxWidth().padding(16.dp))
-
                         }
                     }
 

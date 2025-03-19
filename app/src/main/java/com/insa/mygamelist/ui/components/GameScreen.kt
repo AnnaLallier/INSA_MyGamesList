@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
@@ -39,6 +41,7 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
                 .fillMaxSize()
 
     ) {
+        /* Title, useless now because of the AppBar
         Text(
             text = buildAnnotatedString {
                 withStyle(
@@ -53,11 +56,15 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
             },
             fontWeight = FontWeight.Bold,
             textDecoration = TextDecoration.Underline,
-        )
+        )  */
         AsyncImage(
             model = "https:${gameUpdated.cover}",
-            contentDescription = null,
-            modifier = Modifier.size(250.dp)
+            contentDescription = "Game Cover",
+            modifier = Modifier
+                .size(250.dp)
+
+                .clip(RoundedCornerShape(8.dp))
+
         )
         var genres = gameUpdated.genres.toString()
         genres = genres.replace("[", "")
@@ -76,17 +83,29 @@ fun GameScreen(gameUpdated: GameUpdated, modifier: Modifier, onNavigateToGameLis
             gameUpdated.platforms_url.forEach {
                 AsyncImage(
                     model = "https:${it}",
-                    contentDescription = null,
+                    contentDescription = "Platform logos",
                     //contentScale = ContentScale.Crop, makes everything square but alters the image
                     modifier = Modifier
                         .size(75.dp)
                         .height(75.dp)
                         .padding(8.dp)
+                        .clip(RoundedCornerShape(8.dp))
+
                 )
             }
         }
         Text (
-            "Summary",
+            text = buildAnnotatedString {
+                withStyle(
+                    SpanStyle(
+                        brush = Brush.linearGradient(
+                            colors  = listOf(Color.Black, Color(0xFF6375ab))
+                        )
+                    )
+                ) {
+                    append("Summary")
+                }
+            },
             textDecoration = TextDecoration.Underline,
         )
         Text(

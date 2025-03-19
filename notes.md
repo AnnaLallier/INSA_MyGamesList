@@ -5,9 +5,6 @@ Mettre des commentaires;...
 
 TODO :
 !!!!!! tester sur un autre tel 
-!!!!!! README + Bonus
-!!!!!! 100 jeux
-!!!!!! Offline back to online 
 
 
 - Barre de recherche, dans le fichier SearchAlert !!!

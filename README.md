@@ -29,14 +29,22 @@ Forké à partir du projet [INSA_MyGamesList_20242025](https://github.com/Adjiza
 
 ### Bonus implémentés
 
+
+- La pagination est implémentée pour la liste des jeux. Lorsque l'utilisateur arrive en bas de la liste, une nouvelle requête est faite pour récupérer les jeux suivants. L'application tente également de récupérer les jeux suivants lorsque l'on effectue une recherche et que l'on arrive en bas de la liste des résultats.
+- Un filtre pour afficher uniquement les jeux favoris est disponible dans l'app bar (icône en forme de coeur à côté du titre). Ce filtre fonctionne sur la page d'accueil et lors d'une recherche. Pour le désactiver, il suffit de cliquer à nouveau sur l'icône.
+
+
 #### `insa.mygamelist.data.local`
 - Stockage des favoris et récupération à l'ouverture de l'application à partir d'un fichier JSON
-- Mise en cache / mode offline pour les jeux. Pour cela les jeux sont stockés dans un fichier JSON (`games_updated.json`) lorsque l'application est lancée et parvient à récupérer les jeux depuis l'API. Si l'application est lancée sans connexion internet, elle ira chercher les jeux dans ce fichier. Donc pour que ce mode avion fonctionne, il faut que l'application ait été lancée au moins une fois avec une connexion internet.
+- Mise en cache / mode offline pour les jeux. Pour cela les jeux sont stockés dans un fichier JSON (`games_updated.json`) lorsque l'application est parvient à récupérer les jeux depuis l'API (soit au lancement et dès qu'une nouvelle requête est faite pour récupérer plus de jeux). Si l'application est lancée sans connexion internet, elle ira chercher les jeux dans ce fichier. Donc pour que ce mode avion fonctionne, il faut que l'application ait été lancée au moins une fois avec une connexion internet. 
+  - Afin qu'il ne soit pas nécessaire de la redémarrer si le téléphone a été mis un brève moment en mode avion ou si la connexion Internet était de mauvaise qualité, l'application retentera toujours de récupérer des jeux depuis l'API. 
+  - Un message est affiché à la fin de la liste des jeux, à la place de la barre de chargement habituelle, pour indiquer que les jeux affichés sont ceux stockés localement.
+
 
 #### Général
 
 - Qualité du code (documentation sur les classes, commentaires, utilisation d'une seule langue - l'anglais - pour le code, etc.)
-- Le projet possède une architecture Model-View-ViewModel (MVVM)
+- J'ai fait en sorte que l'application respecte une architecture Model-View-ViewModel (MVVM). Si toutefois des violations de ce modèle sont relevées, elles ne sont pas intentionnelles et devraient avoir été corrigées.
 
 ## Documentations utilisées :
 

@@ -159,7 +159,7 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
                 }
 
                 // Actions of the app bar (favorite)
-                else if (nameOfView == NameOfView.GAMEDETAIL) {
+                else {
                     IconButton(
                         onClick = {
                             gameViewModel.toggleFavorite(gameId)
