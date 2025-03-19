@@ -44,8 +44,9 @@ fun ListOfGames(
         ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
     val filteredGames by gameViewModel.filteredGames.collectAsState()
     val searchQuery by gameViewModel.searchQuery.collectAsState()
-    Column(modifier = modifier.fillMaxSize()) {
-        when {
+
+    Column(modifier = modifier.fillMaxSize()) { // Column to display the list of games
+        when { // When no games are found
             filteredGames.isEmpty() && searchQuery != "" -> {
                 //Log.d("NO GAMES", "No games found")
 
@@ -58,11 +59,10 @@ fun ListOfGames(
                     modifier = Modifier.fillMaxSize(),
                     textAlign = TextAlign.Center,
                 )
-
             }
 
-            else -> {
-                LazyColumn(
+            else -> { // When games are found
+                LazyColumn( // Display the list of games
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
@@ -89,7 +89,7 @@ fun ListOfGames(
                         )
                     }
 
-                    item {
+                    item { // Progress bar and offline message
                         if (gameViewModel.offline) {
                             Row(
                                 Modifier.fillMaxWidth(),
