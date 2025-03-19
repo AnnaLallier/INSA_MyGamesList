@@ -45,6 +45,7 @@ Forké à partir du projet [INSA_MyGamesList_20242025](https://github.com/Adjiza
 
 - Qualité du code (documentation sur les classes, commentaires, utilisation d'une seule langue - l'anglais - pour le code, etc.)
 - J'ai fait en sorte que l'application respecte une architecture Model-View-ViewModel (MVVM). Si toutefois des violations de ce modèle sont relevées, elles ne sont pas intentionnelles et devraient avoir été corrigées.
+- L'application est conçue pour être compatible avec la RGAA 4.0 (Référentiel Général d'Amélioration de l'Accessibilité).
 
 ## Documentations utilisées :
 
@@ -90,7 +91,7 @@ J'ai notamment utilisé les documentations suivantes (sans compter les pages Sta
 - https://www.axopen.com/blog/2021/01/retrofit-projet-android-kotlin/
 - https://developer.android.com/reference/com/google/android/material/progressindicator/LinearProgressIndicator
 
-#### Json
+#### JSON
 -  https://github.com/google/gson/blob/main/UserGuide.md
 -  https://medium.com/@hissain.khan/parsing-with-google-gson-library-in-android-kotlin-7920e26f5520
 

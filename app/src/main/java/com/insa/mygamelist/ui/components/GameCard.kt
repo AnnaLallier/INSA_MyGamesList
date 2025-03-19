@@ -56,7 +56,7 @@ fun GameCard(game: GameUpdated, modifier: Modifier) {
         ) {
             AsyncImage(
                 model = "https:${game.cover}",
-                contentDescription = null,
+                contentDescription = "Game Cover",
                 modifier = Modifier
                     .padding(8.dp)
                     .clip(RoundedCornerShape(8.dp))
