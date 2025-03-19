@@ -9,7 +9,6 @@ import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.data.remote.IGDBServiceAPI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 /**
