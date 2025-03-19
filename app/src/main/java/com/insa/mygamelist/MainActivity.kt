@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
@@ -47,13 +46,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            val gamesLoaded by gameViewModel.games.collectAsState() // Get the games
 
             val currentBackStackEntryState by navController.currentBackStackEntryAsState()
             val dest = currentBackStackEntryState?.destination
             var titre = String()
             var gameId : Long = 0
-            var isFavorite = false
             var nameOfView = NameOfView.HOME
 
             when {
@@ -73,7 +70,7 @@ class MainActivity : ComponentActivity() {
 
             MyGamesListTheme {
                 Scaffold(topBar = {
-                    MyAppBar(navController, titre, nameOfView, gameId, isFavorite)
+                    MyAppBar(navController, titre, nameOfView, gameId)
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = Home) {
                         // Home screen, displaying the list of games

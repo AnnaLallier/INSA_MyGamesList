@@ -44,7 +44,7 @@ import com.insa.mygamelist.ui.viewmodel.GameViewModel
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfView, gameId : Long, isFavorite : Boolean) {
+fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfView, gameId : Long) {
     val actionRetour: (() -> Unit)?
     val showDialogSearch = remember { mutableStateOf(false) }
     val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
