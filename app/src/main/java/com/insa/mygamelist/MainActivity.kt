@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
             MyGamesListTheme {
                 Scaffold(topBar = {
-                    MyAppBar(navController, titre, nameOfView, gameId, isFavorite, gamesLoaded)
+                    MyAppBar(navController, titre, nameOfView, gameId, isFavorite)
                 }, modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(navController = navController, startDestination = Home) {
                         // Home screen, displaying the list of games

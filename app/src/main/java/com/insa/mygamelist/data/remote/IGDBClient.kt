@@ -12,7 +12,7 @@ object IGDBClient {
     private const val URL_API = "https://api.igdb.com/v4/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY // Will log the request and response
+        //level = HttpLoggingInterceptor.Level.BODY // Will log the request and response
     }
 
     private val httpClient = OkHttpClient.Builder()

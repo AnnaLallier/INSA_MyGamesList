@@ -39,8 +39,7 @@ class GameViewModel : ViewModel() {
 
     // Pagination
     private var currentPage = 1
-    var isLoadingGames = false
-
+    private val _isLoadingGames = MutableStateFlow(false)
 
     init {
         fetchGames()
@@ -62,8 +61,8 @@ class GameViewModel : ViewModel() {
      * Fetch the games from the API
      */
     fun fetchGames() {
-        if (!isLoadingGames) {
-            isLoadingGames = true
+        if (!_isLoadingGames.value) {
+            _isLoadingGames.value = true
             viewModelScope.launch {
                 try {
                     val gamesList = repository.getGames(currentPage)
@@ -82,10 +81,11 @@ class GameViewModel : ViewModel() {
                     else {
                         _games.value += gamesList
                         currentPage++
-                        isLoadingGames = false
-                        IGDBAirplaneMode.games = gamesList
+                        IGDBAirplaneMode.games = _games.value
                         IGDBAirplaneMode.saveGames()
                         offline = false
+                        _isLoadingGames.value = false
+
                     }
 
                     filterGames() // Filter the games according to the search query

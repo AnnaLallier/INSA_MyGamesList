@@ -8,44 +8,52 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.ui.viewmodel.GameViewModel
 
-
 /** Search bar of the application */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MySearchBar(
-    innerPadding: PaddingValues,
-    navController: NavController
-) {
+fun MySearchBar() {
     val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
     val query by gameViewModel.searchQuery.collectAsState()
 
-    SearchBar(
+    MyCustomSearchBar(
         query = query,
-        onQueryChange = { gameViewModel.updateSearchQuery(it) },
-        onSearch = {  },
-        active = query.isNotEmpty(),
-        onActiveChange = { },
-        placeholder = { Text("Search for a game, a genre, or a platform") },
-        leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search Icon") },
-        trailingIcon = {
-            if (query.isNotEmpty()) {
-                IconButton(onClick = { gameViewModel.updateSearchQuery("") }) {
-                    Icon(Icons.Default.Close, contentDescription = "Clear Search")
-                }
-            }
-        },
-        modifier = Modifier.fillMaxWidth()
+        onQueryChange = { gameViewModel.updateSearchQuery(it) }
+    )
+}
+
+@Composable
+fun MyCustomSearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        ListOfGames(
-            navController = navController,
-            modifier = Modifier.padding(innerPadding)
+        TextField(
+            value = query,
+            onValueChange = onQueryChange,
+            leadingIcon = {
+                Icon(Icons.Default.Search, contentDescription = "Search")
+            },
+            modifier = Modifier.weight(1f),
+            placeholder = { Text("Search for a game, a genre, or a platform") },
+            trailingIcon = {
+                if (query.isNotEmpty()) {
+                    IconButton(onClick = { onQueryChange("") }) {
+                        Icon(Icons.Default.Close, contentDescription = "Clear Search", tint = Color.Gray)
+                    }
+                }
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedContainerColor = Color.Transparent,
+                focusedLabelColor = Color.Transparent,
+                )
         )
     }
 }

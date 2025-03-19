@@ -4,7 +4,6 @@ import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
@@ -31,7 +30,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import com.insa.mygamelist.data.model.GameUpdated
 import com.insa.mygamelist.ui.navigation.Home
 import com.insa.mygamelist.ui.navigation.NameOfView
 import com.insa.mygamelist.ui.viewmodel.GameViewModel
@@ -41,14 +39,12 @@ import com.insa.mygamelist.ui.viewmodel.GameViewModel
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfView, gameId : Long, isFavorite : Boolean, games : List<GameUpdated>) {
+fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfView, gameId : Long, isFavorite : Boolean) {
     val actionRetour: (() -> Unit)?
     val showDialogSearch = remember { mutableStateOf(false) }
-    var query by remember { mutableStateOf("") }
-    var isActive by remember { mutableStateOf(false) }
     val gameViewModel: GameViewModel = ViewModelProvider(LocalContext.current as ComponentActivity).get(GameViewModel::class.java)
 
-    // Set the action to do when the back button (<-) is pressed
+    // Sets the action to do when the back button (<-) is pressed
     when {
         // From the home screen, close the app
         nameOfView == NameOfView.HOME && !showDialogSearch.value -> {
@@ -151,10 +147,7 @@ fun MyAppBar(navController : NavController, titre : String, nameOfView : NameOfV
         )
 
         if (showDialogSearch.value && nameOfView == NameOfView.HOME) {
-            MySearchBar(
-                PaddingValues(start=0.0.dp, top=88.0.dp, end=0.0.dp, bottom=24.0.dp),
-                navController,
-            )
+            MySearchBar()
         }
     }
 }
